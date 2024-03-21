@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      HEADER
+      <h1 class="text-blue-600">HEADER</h1>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
