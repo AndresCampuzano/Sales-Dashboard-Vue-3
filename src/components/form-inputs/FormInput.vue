@@ -3,7 +3,7 @@
     <label v-if="label" :for="id" class="block mb-2 text-sm font-medium">{{ label }}</label>
     <input
       :value="modelValue"
-      @input="$emit('update:modelValue', $event?.target?.value)"
+      @input="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value)"
       :type="type"
       :id="id"
       class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400"
