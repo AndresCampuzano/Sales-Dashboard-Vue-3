@@ -1,9 +1,9 @@
 <template>
   <main>
     <form class="m-6" @submit.prevent="onSubmit">
-      <FormInput v-model="email" id="email" type="email" placeholder="correo@shop.com" label="Correo" required/>
+      <FormInput v-model="email" id="email" type="email" placeholder="correo@tienda.com" label="Correo" required/>
       <FormInput v-model="password" id="password" type="password" placeholder="•••••••••" label="Contraseña" required/>
-      <FormButton text="Iniciar sesion" type="submit"/>
+      <FormButton text="Iniciar sesión" type="submit" />
     </form>
   </main>
 </template>
