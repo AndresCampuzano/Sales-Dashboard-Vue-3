@@ -18,7 +18,6 @@
         required
       />
       <FormButton text="Iniciar sesión" type="submit" />
-      <!--      <p>doubleCount: {{ computedPiniaState.doubleCount }}</p>-->
     </form>
   </main>
 </template>
