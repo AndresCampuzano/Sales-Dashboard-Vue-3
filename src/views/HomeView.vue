@@ -1,37 +1,20 @@
 <template>
   <main>
-    <form class="m-6" @submit.prevent="onSubmit">
-      <FormInput
-        v-model="email"
-        id="email"
-        type="email"
-        placeholder="correo@tienda.com"
-        label="Correo"
-        required
-      />
-      <FormInput
-        v-model="password"
-        id="password"
-        type="password"
-        placeholder="•••••••••"
-        label="Contraseña"
-        required
-      />
-      <FormButton text="Iniciar sesión" type="submit" />
-    </form>
+    <h1>HOME</h1>
+    <p>user: {{ user?.displayName }}</p>
+    <FormButton text="Cerrar sesión" @click="onLogOut" style-type="secondary" />
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import FormInput from '@/components/form-inputs/FormInput.vue'
 import FormButton from '@/components/form-inputs/FormButton.vue'
+import { authStore } from '@/stores/auth'
+import router from '@/router'
 
-const email = ref('')
-const password = ref('')
+const { logoutFirebase, user } = authStore()
 
-function onSubmit(): void {
-  console.log(email.value)
-  console.log(password.value)
+async function onLogOut() {
+  await logoutFirebase()
+  await router.push('/login')
 }
 </script>

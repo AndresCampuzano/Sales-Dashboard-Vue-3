@@ -1,23 +1,67 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AboutView from '../views/AboutView.vue'
+import LoginView from '../views/LoginView.vue'
+import { onAuthStateChanged } from 'firebase/auth'
+import { FirebaseAuth } from '@/firebase/firebaseConfig'
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: AboutView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
+})
+
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const remoteListener = onAuthStateChanged(
+      FirebaseAuth,
+      (user) => {
+        resolve(user)
+        remoteListener()
+      },
+      reject
+    )
+  })
+}
+
+router.beforeEach(async (to, _, next) => {
+  console.log('1')
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await getCurrentUser()) {
+      console.log('3')
+      next()
+    } else {
+      console.log('4')
+      next('/login')
+    }
+  } else {
+    console.log('5')
+    next()
+  }
 })
 
 export default router
