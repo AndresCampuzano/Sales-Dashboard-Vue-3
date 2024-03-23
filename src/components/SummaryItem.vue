@@ -1,7 +1,97 @@
 <template>
   <div class="m-3 p-2.5 bg-gray-800 rounded-md">
     <div class="flex items-center">
-      <div>IMAGE</div>
+      <template v-if="products === 1">
+        <img
+          :src="data.nestedTableData.nestedItems[0].image_src"
+          alt="product 1"
+          class="t-1-product-1 shared-styles-product-img"
+        />
+      </template>
+      <template v-if="products === 2">
+        <div class="products-container">
+          <img
+            :src="data.nestedTableData.nestedItems[0].image_src"
+            alt="product 1"
+            class="t-2-product-1 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[1].image_src"
+            alt="product 2"
+            class="t-2-product-2 shared-styles-product-img"
+          />
+        </div>
+      </template>
+      <template v-if="products === 3">
+        <div class="products-container">
+          <img
+            :src="data.nestedTableData.nestedItems[0].image_src"
+            alt="product 1"
+            class="t-3-product-1 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[1].image_src"
+            alt="product 2"
+            class="t-3-product-2 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[2].image_src"
+            alt="product 3"
+            class="t-3-product-3 shared-styles-product-img"
+          />
+        </div>
+      </template>
+      <template v-if="products === 4">
+        <div class="products-container">
+          <img
+            :src="data.nestedTableData.nestedItems[0].image_src"
+            alt="product 1"
+            class="t-4-product-1 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[1].image_src"
+            alt="product 2"
+            class="t-4-product-2 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[2].image_src"
+            alt="product 3"
+            class="t-4-product-3 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[3].image_src"
+            alt="product 4"
+            class="t-4-product-4 shared-styles-product-img"
+          />
+        </div>
+      </template>
+      <template v-if="products >= 5">
+        <div class="products-container">
+          <img
+            :src="data.nestedTableData.nestedItems[0].image_src"
+            alt="product 1"
+            class="t-5-product-1 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[1].image_src"
+            alt="product 2"
+            class="t-5-product-2 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[2].image_src"
+            alt="product 3"
+            class="t-5-product-3 shared-styles-product-img"
+          />
+          <img
+            :src="data.nestedTableData.nestedItems[3].image_src"
+            alt="product 4"
+            class="t-5-product-4 shared-styles-product-img"
+          />
+          <div class="floating-container-total-products just-animation">
+            <p class="text-black">{{ products }}</p>
+          </div>
+        </div>
+      </template>
       <div class="ml-2.5">
         <p class="text-base">{{ data.clientName }}</p>
         <p class="text-base font-medium">
@@ -18,16 +108,179 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
+import { computed, type PropType } from 'vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
 
-defineProps({
+const props = defineProps({
   data: {
     required: true,
     type: {} as PropType<SalesDataTable>
   }
 })
+
+const products = computed<number>(() => {
+  return props.data?.nestedTableData.nestedItems.length
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+.products-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.shared-styles-product-img {
+  border-radius: 100%;
+  object-fit: cover;
+}
+.t-1-product-1 {
+  height: 64px;
+  width: 64px;
+}
+.t-2-product-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 37px;
+  width: 37px;
+}
+.t-2-product-2 {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 37px;
+  width: 37px;
+}
+.t-3-product-1 {
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-3-product-2 {
+  position: absolute;
+  top: 3px;
+  right: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-3-product-3 {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 30px;
+  width: 30px;
+}
+
+.t-4-product-1 {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-4-product-2 {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-4-product-3 {
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-4-product-4 {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  height: 30px;
+  width: 30px;
+}
+
+.t-5-product-1 {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-5-product-2 {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-5-product-3 {
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  height: 30px;
+  width: 30px;
+}
+.t-5-product-4 {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  height: 30px;
+  width: 30px;
+}
+.floating-container-total-products {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-background {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  border-radius: 6px;
+  background: linear-gradient(-90deg, #007cf0, #00dfd8, #ff0080, #007cf0);
+  background-size: 400% 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  animation: backgroundAnimation 8s ease-in-out infinite;
+}
+
+@keyframes backgroundAnimation {
+  50% {
+    background-position: 140% 50%;
+    transform: skew(-2deg);
+  }
+}
+
+.container-background:after {
+  content: '';
+  position: absolute;
+  background-size: inherit;
+  background-image: inherit;
+  -webkit-animation: inherit;
+  animation: inherit;
+  left: 0;
+  right: 0;
+  top: 2px;
+  height: 100%;
+  filter: blur(0.5rem);
+}
+</style>
