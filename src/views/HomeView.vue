@@ -4,6 +4,7 @@
     <p>user: {{ user?.displayName }}</p>
     <FormButton text="Cerrar sesión" @click="onLogOut" style-type="secondary" />
     <section>
+      <p v-if="state.loading">Cargando...</p>
       <summary-item v-for="(item, _) in state.data" :key="item.id" :data="item" />
     </section>
   </main>
