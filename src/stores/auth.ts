@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
-// import firebase from 'firebase/compat/app'
 import { FirebaseAuth } from '@/firebase/firebaseConfig'
 import router from '@/router'
 import firebase from 'firebase/compat/app'
