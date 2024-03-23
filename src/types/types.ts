@@ -57,6 +57,7 @@ export interface SalesDataTable {
   totalProducts: number
   totalPrice: number
   city: string
+  department: string
   date: string
   isRecurrence?: boolean
   totalSales: Sale[]

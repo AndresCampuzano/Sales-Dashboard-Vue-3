@@ -18,6 +18,7 @@ export const prepareDataSales = (data: SaleWithClientAndItemData[]): SalesDataTa
     totalProducts: sale.items.length,
     totalPrice: sale.items.reduce((acc, item) => acc + (item?.price || 0), 0),
     city: sale.client.city,
+    department: sale.client.department,
     date: sale.created_at as string,
     isRecurrence: sale.total_sales.length > 1,
     totalSales: sale.total_sales,
