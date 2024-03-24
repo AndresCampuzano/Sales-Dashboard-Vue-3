@@ -109,33 +109,35 @@
       </div>
     </div>
     <template v-if="isOpen">
-      <hr class="border-slate-700 mt-4" />
-      <div class="grid grid-cols-1 divide-y divide-slate-700 mt-4">
-        <div>
-          <div class="mb-4">
-            <div
-              v-for="item in data.nestedTableData.nestedItems"
-              :key="item.id"
-              class="p-1 pb-2 bg-gray-700 rounded-md my-3"
-            >
-              <div class="flex items-center">
-                <img
-                  :src="item.image_src"
-                  :alt="item.name"
-                  class="single-product-img shared-styles-product-img"
-                />
-                <div class="ml-3">
-                  <p class="text-base">{{ item.name }}</p>
-                  <div class="badge" :style="badgeColor(item.color)">
-                    {{ item.color }}
+      <div class="fade-in">
+        <hr class="border-slate-700 mt-4" />
+        <div class="grid grid-cols-1 divide-y divide-slate-700 mt-4">
+          <div>
+            <div class="mb-4">
+              <div
+                v-for="item in data.nestedTableData.nestedItems"
+                :key="item.id"
+                class="p-1 pb-2 bg-gray-700 rounded-md my-3"
+              >
+                <div class="flex items-center">
+                  <img
+                    :src="item.image_src"
+                    :alt="item.name"
+                    class="single-product-img shared-styles-product-img"
+                  />
+                  <div class="ml-3">
+                    <p class="text-base">{{ item.name }}</p>
+                    <div class="badge" :style="badgeColor(item.color)">
+                      {{ item.color }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <div class="mt-4">CLIENT INFO</div>
+          <div>
+            <div class="mt-4">CLIENT INFO</div>
+          </div>
         </div>
       </div>
     </template>
@@ -338,5 +340,22 @@ function badgeColor(color: string) {
   top: 2px;
   height: 100%;
   filter: blur(0.5rem);
+}
+
+/* Define keyframes for the fade-in animation */
+@keyframes fadeTopToBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply the animation to your element */
+.fade-in {
+  animation: fadeTopToBottom 0.5s ease forwards;
 }
 </style>
