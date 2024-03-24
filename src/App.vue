@@ -1,30 +1,12 @@
 <template>
-  <header class="max-w-lg m-auto mt-10">
+  <header v-if="store.user" class="max-w-lg m-auto mt-10">
     <div>
       <div class="flex m-3">
-        <template v-if="!store.user">
-          <div class="animate-pulse flex space-x-4">
-            <div class="rounded-full bg-slate-700 h-16 w-16"></div>
-            <div class="flex-1 space-y-6 py-2">
-              <div class="h-2 bg-slate-700 rounded"></div>
-              <div class="space-y-3">
-                <div class="grid grid-cols-3 gap-4">
-                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </template>
-        <template v-else>
-          <img
-            :src="store.user?.photoURL || ''"
-            :alt="store.user?.displayName || ''"
-            class="rounded-full h-12 w-12"
-          />
-          <div class="ml-3 flex w-full items-center">
-            <h3 class="text-2xl">Hola, {{ store.user?.displayName?.split(' ')[0] }}</h3>
-          </div>
-        </template>
+        <img :src="photo" :alt="userOrEmail" class="rounded-full h-12 w-12" />
+        <div class="ml-3 w-full items-center">
+          <h3 class="text-2xl">Hola, {{ formattedUserOrEmail }}</h3>
+          <p @click="onLogOut" class="underline cursor-pointer hover:opacity-80">Cerrar sesión</p>
+        </div>
       </div>
 
       <nav
@@ -40,14 +22,52 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { onBeforeMount } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { authStore } from '@/stores/auth'
+import router from '@/router'
 
 const store = authStore()
 
 onBeforeMount(async () => {
   await store.init()
 })
+
+async function onLogOut() {
+  await store.logoutFirebase()
+  await router.push('/login')
+}
+
+const photo = computed<string>(() => {
+  return store.user?.photoURL || '/bunny.jpeg'
+})
+
+const userOrEmail = computed<string>(() => {
+  return store.user?.displayName || store.user?.email || ''
+})
+
+const formattedUserOrEmail = computed<string>(() => {
+  return (
+    store.user?.displayName?.split(' ')[0] ||
+    getUsernameFromEmail(store.user?.email as string) ||
+    ''
+  )
+})
+
+/**
+ * Extracts the username from the given email address.
+ *
+ * @param {string} email - The email address from which to extract the username.
+ *
+ * @return {string|null} The username extracted from the email address, or null if no match found.
+ */
+function getUsernameFromEmail(email: string): string | null {
+  // Regular expression to match the text before the @ symbol
+  const regex = /^[^@]+/
+  // Extract the username from the email using the regex
+  const match = email.match(regex)
+  // Return the username (or null if no match found)
+  return match ? match[0] : null
+}
 </script>
 
 <style scoped></style>
