@@ -342,7 +342,6 @@ function badgeColor(color: string) {
   filter: blur(0.5rem);
 }
 
-/* Define keyframes for the fade-in animation */
 @keyframes fadeTopToBottom {
   0% {
     opacity: 0;
@@ -354,7 +353,6 @@ function badgeColor(color: string) {
   }
 }
 
-/* Apply the animation to your element */
 .fade-in {
   animation: fadeTopToBottom 0.5s ease forwards;
 }
