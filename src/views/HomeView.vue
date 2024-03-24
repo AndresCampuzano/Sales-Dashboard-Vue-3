@@ -1,4 +1,5 @@
 <template>
+  <floating-buttons :menu="state.menu" />
   <main>
     <section class="max-w-lg m-auto">
       <template v-if="state.loading">
@@ -33,10 +34,29 @@ import type { SalesDataTable } from '@/types/types.ts'
 import { getSales } from '@/services/sale.service.ts'
 import { prepareDataSales } from '@/utils/prepareDataSales.ts'
 import SummaryItem from '@/components/SummaryItem.vue'
+import FloatingButtons from '@/components/FloatingButtons.vue'
 
 const state = reactive({
   loading: true,
-  data: [] as SalesDataTable[]
+  data: [] as SalesDataTable[],
+  menu: [
+    {
+      label: '1',
+      action: 'action 1'
+    },
+    {
+      label: '2',
+      action: 'action 2'
+    },
+    {
+      label: '3',
+      action: 'action 3'
+    },
+    {
+      label: '4',
+      action: 'action 4'
+    }
+  ]
 })
 
 onMounted(async () => {
