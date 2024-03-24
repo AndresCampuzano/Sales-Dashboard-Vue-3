@@ -1,7 +1,7 @@
 <template>
   <header class="max-w-lg m-auto mt-10">
     <div>
-      <div class="flex">
+      <div class="flex m-3">
         <template v-if="!store.user">
           <div class="animate-pulse flex space-x-4">
             <div class="rounded-full bg-slate-700 h-16 w-16"></div>
