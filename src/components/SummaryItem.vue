@@ -137,10 +137,39 @@
                   </div>
                 </div>
               </div>
+              <div class="w-full">
+                <p class="w-fit ml-auto mr-2.5">Total: {{ currencyFormat(data.totalPrice) }}</p>
+              </div>
             </div>
           </div>
           <div>
-            <div class="mt-4">CLIENT INFO</div>
+            <div class="mt-4 p-2 bg-gray-700 rounded-md">
+              <div v-if="data.isRecurrence">
+                <span
+                  class="badge"
+                  :style="{
+                    backgroundColor: '#24a124',
+                    color: '#fafafa'
+                  }"
+                >
+                  {{ data.totalSales.length }} compras
+                </span>
+              </div>
+              <p>{{ data.clientName }}</p>
+              <a
+                :href="`https://www.instagram.com/${data.nestedTableData.nestedClient.instagram_account}`"
+                target="_blank"
+                class="font-medium text-blue-500 hover:text-blue-600"
+                >@{{ data.nestedTableData.nestedClient.instagram_account }}</a
+              >
+              <p>{{ data.nestedTableData.nestedClient.address }}</p>
+              <a
+                :href="'tel:' + data.nestedTableData.nestedClient.phone"
+                class="text-blue-500 hover:text-blue-600"
+                >{{ data.nestedTableData.nestedClient.phone }}</a
+              >
+              <p class="text-base">{{ data.city }} / {{ data.department }}</p>
+            </div>
           </div>
         </div>
       </div>
