@@ -3,7 +3,7 @@
     <h1>HOME</h1>
     <p>user: {{ user?.displayName }}</p>
     <FormButton text="Cerrar sesión" @click="onLogOut" style-type="secondary" />
-    <section class="max-w-xl m-auto">
+    <section class="max-w-lg m-auto">
       <template v-if="state.loading">
         <div
           v-for="(_, index) in 15"
