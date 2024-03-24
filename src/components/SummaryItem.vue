@@ -1,7 +1,7 @@
 <template>
   <div
     @click="isOpen = !isOpen"
-    class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer hover:opacity-75"
+    class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer"
     :class="{
       'border-b-2 border-t-2 border-green-700': data.isRecurrence
     }"
