@@ -1,11 +1,11 @@
 <template>
-  <div class="floating" v-click-outside="onClickOutside">
+  <div class="floating" v-click-outside="onCloseMenu">
     <div class="anchor">
       <div @click="isOpen = !isOpen" class="main-button">
         {{ isOpen }}
       </div>
       <template v-if="isOpen">
-        <div class="menu">
+        <div class="menu" v-scroll-event="onCloseMenu">
           <div
             v-for="(item, index) in menu"
             :key="item.label"
@@ -51,7 +51,7 @@ function dynamicPosition(index: number, base: number): number {
   }
 }
 
-function onClickOutside() {
+function onCloseMenu() {
   isOpen.value = false
 }
 </script>
