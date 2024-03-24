@@ -117,7 +117,7 @@
               <div
                 v-for="item in data.nestedTableData.nestedItems"
                 :key="item.id"
-                class="p-1 pb-2 bg-gray-700 rounded-md my-3"
+                class="p-1 bg-gray-700 rounded-md my-3"
               >
                 <div class="flex items-center">
                   <img
@@ -125,11 +125,12 @@
                     :alt="item.name"
                     class="single-product-img shared-styles-product-img"
                   />
-                  <div class="ml-3">
+                  <div class="ml-3 flex w-full">
                     <p class="text-base">{{ item.name }}</p>
-                    <div class="badge" :style="badgeColor(item.color)">
+                    <div class="ml-3 badge" :style="badgeColor(item.color)">
                       {{ item.color }}
                     </div>
+                    <p class="ml-auto mr-2">{{ currencyFormat(item.price) }}</p>
                   </div>
                 </div>
               </div>
@@ -149,6 +150,7 @@ import { computed, type PropType, ref } from 'vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
 import { colorFromConstants } from '@/utils/colorFromConstants.ts'
+import { currencyFormat } from '../utils/currencyFormat.ts'
 
 const isOpen = ref(false)
 
@@ -297,7 +299,7 @@ function badgeColor(color: string) {
 
 .single-product-img {
   height: 42px;
-  width: 42px;
+  width: 48px;
 }
 
 .badge {
