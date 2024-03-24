@@ -3,7 +3,7 @@
     @click="isOpen = !isOpen"
     class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer"
     :class="{
-      'border-b-2 border-t-2 border-green-700': data.isRecurrence
+      'border-l-4 border-green-700': data.isRecurrence
     }"
   >
     <div class="flex items-center">
@@ -338,42 +338,6 @@ function badgeColor(color: string) {
   padding: 0 12px;
   border-radius: 6px;
   width: fit-content;
-}
-
-.container-background {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  bottom: 1px;
-  left: 1px;
-  border-radius: 6px;
-  background: linear-gradient(-90deg, #007cf0, #00dfd8, #ff0080, #007cf0);
-  background-size: 400% 100%;
-  border: none;
-  padding: 0;
-  margin: 0;
-  animation: backgroundAnimation 8s ease-in-out infinite;
-}
-
-@keyframes backgroundAnimation {
-  50% {
-    background-position: 140% 50%;
-    transform: skew(-2deg);
-  }
-}
-
-.container-background:after {
-  content: '';
-  position: absolute;
-  background-size: inherit;
-  background-image: inherit;
-  -webkit-animation: inherit;
-  animation: inherit;
-  left: 0;
-  right: 0;
-  top: 2px;
-  height: 100%;
-  filter: blur(0.5rem);
 }
 
 @keyframes fadeTopToBottom {
