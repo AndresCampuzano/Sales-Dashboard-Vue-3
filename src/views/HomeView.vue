@@ -1,8 +1,5 @@
 <template>
   <main>
-    <h1>HOME</h1>
-    <p>user: {{ user?.displayName }}</p>
-    <FormButton text="Cerrar sesión" @click="onLogOut" style-type="secondary" />
     <section class="max-w-lg m-auto">
       <template v-if="state.loading">
         <div
@@ -32,15 +29,10 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import router from '@/router'
-import { authStore } from '@/stores/auth'
-import FormButton from '@/components/form-inputs/FormButton.vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { getSales } from '@/services/sale.service.ts'
 import { prepareDataSales } from '@/utils/prepareDataSales.ts'
 import SummaryItem from '@/components/SummaryItem.vue'
-
-const { logoutFirebase, user } = authStore()
 
 const state = reactive({
   loading: true,
@@ -58,11 +50,6 @@ onMounted(async () => {
     state.loading = false
   }
 })
-
-async function onLogOut() {
-  await logoutFirebase()
-  await router.push('/login')
-}
 </script>
 
 <style scoped></style>
