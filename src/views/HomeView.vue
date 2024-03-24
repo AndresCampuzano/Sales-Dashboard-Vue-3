@@ -3,7 +3,7 @@
     <h1>HOME</h1>
     <p>user: {{ user?.displayName }}</p>
     <FormButton text="Cerrar sesión" @click="onLogOut" style-type="secondary" />
-    <section>
+    <section class="max-w-xl m-auto">
       <p v-if="state.loading">Cargando...</p>
       <summary-item v-for="(item, _) in state.data" :key="item.id" :data="item" />
     </section>

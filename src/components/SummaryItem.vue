@@ -1,5 +1,10 @@
 <template>
-  <div class="m-3 p-2.5 bg-gray-800 rounded-md">
+  <div
+    class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer hover:opacity-75"
+    :class="{
+      'border-2 border-green-700': data.isRecurrence
+    }"
+  >
     <div class="flex items-center">
       <template v-if="products === 1">
         <img
@@ -92,11 +97,9 @@
           </div>
         </div>
       </template>
-      <div class="ml-2.5">
-        <p class="text-base">{{ data.clientName }}</p>
-        <p class="text-base font-medium">
-          @{{ data.nestedTableData.nestedClient.instagram_account }}
-        </p>
+      <div class="ml-3">
+        <p class="text-base font-medium">{{ data.clientName }}</p>
+        <p class="text-base">{{ data.city }} / {{ data.department }}</p>
         <p class="text-base font-thin">
           {{ DateTime.fromISO(data.date).setLocale('es').toFormat('cccc dd LLL') }} ({{
             DateTime.fromISO(data.date, {}).toRelative({ locale: 'es' })
