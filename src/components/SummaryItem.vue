@@ -126,10 +126,13 @@
                     class="single-product-img shared-styles-product-img"
                   />
                   <div class="ml-3 flex w-full">
-                    <p class="text-base">{{ item.name }}</p>
-                    <div class="ml-3 badge" :style="badgeColor(item.color)">
-                      {{ item.color }}
-                    </div>
+                    <p class="text-base">
+                      {{ item.name }}
+                      <span class="badge" :style="badgeColor(item.color)">
+                        {{ item.color }}
+                      </span>
+                    </p>
+
                     <p class="ml-auto mr-2">{{ currencyFormat(item.price) }}</p>
                   </div>
                 </div>
