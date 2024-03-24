@@ -1,8 +1,9 @@
 <template>
   <div
+    @click="isOpen = !isOpen"
     class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer hover:opacity-75"
     :class="{
-      'border-2 border-green-700': data.isRecurrence
+      'border-b-2 border-t-2 border-green-700': data.isRecurrence
     }"
   >
     <div class="flex items-center">
@@ -107,13 +108,47 @@
         </p>
       </div>
     </div>
+    <template v-if="isOpen">
+      <hr class="border-slate-700 mt-4" />
+      <div class="grid grid-cols-1 divide-y divide-slate-700 mt-4">
+        <div>
+          <div class="mb-4">
+            <div
+              v-for="item in data.nestedTableData.nestedItems"
+              :key="item.id"
+              class="p-1 pb-2 bg-gray-700 rounded-md my-3"
+            >
+              <div class="flex items-center">
+                <img
+                  :src="item.image_src"
+                  :alt="item.name"
+                  class="single-product-img shared-styles-product-img"
+                />
+                <div class="ml-3">
+                  <p class="text-base">{{ item.name }}</p>
+                  <div class="badge" :style="badgeColor(item.color)">
+                    {{ item.color }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mt-4">CLIENT INFO</div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, type PropType } from 'vue'
+import { computed, type PropType, ref } from 'vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
+import { colorFromConstants } from '@/utils/colorFromConstants.ts'
+
+const isOpen = ref(false)
 
 const props = defineProps({
   data: {
@@ -125,6 +160,13 @@ const props = defineProps({
 const products = computed<number>(() => {
   return props.data?.nestedTableData.nestedItems.length
 })
+
+function badgeColor(color: string) {
+  return {
+    backgroundColor: colorFromConstants(color).bgColor,
+    color: colorFromConstants(color).textColor
+  }
+}
 </script>
 
 <style scoped>
@@ -249,6 +291,17 @@ const products = computed<number>(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.single-product-img {
+  height: 42px;
+  width: 42px;
+}
+
+.badge {
+  padding: 0 12px;
+  border-radius: 6px;
+  width: fit-content;
 }
 
 .container-background {
