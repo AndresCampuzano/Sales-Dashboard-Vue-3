@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:prod": "vite --mode production",
+    "dev:prod:host": "vite --host --mode production",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",

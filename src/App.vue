@@ -8,20 +8,13 @@
           <p @click="onLogOut" class="underline cursor-pointer hover:opacity-80">Cerrar sesión</p>
         </div>
       </div>
-
-      <nav
-        class="divide-slate-700 grid grid-cols-2 divide-x text-center h-16 items-center rounded-md"
-      >
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
     </div>
   </header>
   <RouterView />
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import { computed, onBeforeMount } from 'vue'
 import { authStore } from '@/stores/auth'
 import router from '@/router'

@@ -1,11 +1,12 @@
 <template>
   <floating-buttons :menu="state.menu" />
   <main>
-    <section class="max-w-lg m-auto">
+    <section class="max-w-lg m-auto px-3">
+      <h1 class="text-2xl">Ventas</h1>
       <template v-if="state.loading">
         <div
           v-for="(_, index) in 15"
-          class="m-3 p-2.5 bg-gray-800 rounded-md cursor-pointer"
+          class="my-3 p-2.5 bg-gray-800 rounded-md cursor-pointer"
           :key="index"
         >
           <div class="animate-pulse flex space-x-4">
