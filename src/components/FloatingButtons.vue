@@ -103,6 +103,10 @@ function onCloseMenu() {
         width: 100px;
         animation: fadeIn 0.1s linear forwards;
 
+        @media (max-width: 600px) {
+          left: -44px;
+        }
+
         &-item {
           padding: 0 10px;
           color: black;
