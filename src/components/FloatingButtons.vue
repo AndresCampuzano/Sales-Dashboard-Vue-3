@@ -2,7 +2,7 @@
   <div class="floating" v-click-outside="onCloseMenu">
     <div class="anchor">
       <div @click="isOpen = !isOpen" class="main-button">
-        {{ isOpen }}
+        <add-icon :size="30" />
       </div>
       <template v-if="isOpen">
         <div class="menu" v-scroll-event="onCloseMenu">
@@ -10,13 +10,17 @@
             v-for="(item, index) in menu"
             :key="item.label"
             @click="isOpen = !isOpen"
-            class="menu-item"
+            class="menu-options-container"
             :style="{
               top: `-${dynamicPosition(index, 40)}px`,
               animationDelay: `${index / 10}s`
             }"
           >
-            {{ item.label }} {{}}
+            <div class="menu-options-container-item">
+              <RouterLink :to="item.to">
+                {{ item.label }}
+              </RouterLink>
+            </div>
           </div>
         </div>
       </template>
@@ -26,13 +30,13 @@
 
 <script setup lang="ts">
 import { type PropType, ref } from 'vue'
+import AddIcon from '@/components/icons/AddIcon.vue'
 
 const isOpen = ref<boolean>(false)
 
 interface Menu {
   label: string
-  action: string
-  color?: string
+  to: string
 }
 
 defineProps({
@@ -60,33 +64,59 @@ function onCloseMenu() {
 .floating {
   z-index: 1;
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 60px;
+  bottom: 60px;
+
+  @media (max-width: 600px) {
+    right: 30px;
+    bottom: 30px;
+  }
 
   .anchor {
     position: relative;
 
     .main-button {
-      background-color: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #035294;
       color: white;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.75;
+      }
     }
 
     .menu {
       position: absolute;
       top: 0;
 
-      &-item {
+      &-options-container {
         opacity: 0; /* Start with 0 opacity */
         position: absolute;
-        width: 30px;
-        height: 30px;
-        color: black;
-        background-color: #b9b9b9;
-        border-radius: 50%;
+        left: -52px;
+        width: 100px;
         animation: fadeIn 0.1s linear forwards;
+
+        &-item {
+          padding: 0 10px;
+          color: black;
+          background-color: #fafafa;
+          height: 30px;
+          border-radius: 6px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &:hover {
+            opacity: 0.75;
+          }
+        }
       }
 
       @keyframes fadeIn {

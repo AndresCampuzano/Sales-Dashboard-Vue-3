@@ -41,20 +41,20 @@ const state = reactive({
   data: [] as SalesDataTable[],
   menu: [
     {
-      label: '1',
-      action: 'action 1'
+      label: 'Venta',
+      to: '/1'
     },
     {
-      label: '2',
-      action: 'action 2'
+      label: 'Cliente',
+      to: '/2'
     },
     {
-      label: '3',
-      action: 'action 3'
+      label: 'Producto',
+      to: '/3'
     },
     {
-      label: '4',
-      action: 'action 4'
+      label: 'Gasto',
+      to: '/4'
     }
   ]
 })
