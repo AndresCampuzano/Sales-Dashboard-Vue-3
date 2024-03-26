@@ -85,6 +85,11 @@ function onCloseMenu() {
       width: 50px;
       height: 50px;
       cursor: pointer;
+
+      @media (max-width: 600px) {
+        width: 60px;
+        height: 60px;
+      }
     }
 
     .menu {
