@@ -85,10 +85,6 @@ function onCloseMenu() {
       width: 50px;
       height: 50px;
       cursor: pointer;
-
-      &:hover {
-        opacity: 0.75;
-      }
     }
 
     .menu {
@@ -112,10 +108,6 @@ function onCloseMenu() {
           display: flex;
           justify-content: center;
           align-items: center;
-
-          &:hover {
-            opacity: 0.75;
-          }
         }
       }
 
