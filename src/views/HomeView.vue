@@ -35,29 +35,29 @@ import type { SalesDataTable } from '@/types/types.ts'
 import { getSales } from '@/services/sale.service.ts'
 import { prepareDataSales } from '@/utils/prepareDataSales.ts'
 import SummaryItem from '@/components/SummaryItem.vue'
-import FloatingButtons from '@/components/FloatingButtons.vue'
+import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
 
 const state = reactive({
   loading: true,
   data: [] as SalesDataTable[],
   menu: [
     {
-      label: 'Venta',
-      to: '/1'
+      label: 'nueva venta',
+      to: '/'
     },
     {
-      label: 'Cliente',
-      to: '/2'
+      label: 'gastos',
+      to: '/expenses'
     },
     {
-      label: 'Producto',
-      to: '/3'
+      label: 'broches',
+      to: '/products'
     },
     {
-      label: 'Gasto',
-      to: '/4'
+      label: 'clientes',
+      to: '/customers'
     }
-  ]
+  ] as Menu[]
 })
 
 onMounted(async () => {
@@ -72,5 +72,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped></style>

@@ -2,7 +2,7 @@
   <div class="floating" v-click-outside="onCloseMenu">
     <div class="anchor">
       <div @click="isOpen = !isOpen" class="main-button">
-        <add-icon :size="30" />
+        <menu-icon :size="30" />
       </div>
       <template v-if="isOpen">
         <div class="menu" v-scroll-event="onCloseMenu">
@@ -16,7 +16,13 @@
               animationDelay: `${index / 10}s`
             }"
           >
-            <div class="menu-options-container-item">
+            <div
+              class="menu-options-container-item"
+              :class="{
+                forward: item.forward,
+                back: item.back
+              }"
+            >
               <RouterLink :to="item.to">
                 {{ item.label }}
               </RouterLink>
@@ -30,13 +36,15 @@
 
 <script setup lang="ts">
 import { type PropType, ref } from 'vue'
-import AddIcon from '@/components/icons/AddIcon.vue'
+import MenuIcon from '@/components/icons/MenuIcon.vue'
 
 const isOpen = ref<boolean>(false)
 
-interface Menu {
+export interface Menu {
   label: string
   to: string
+  forward?: boolean
+  back?: boolean
 }
 
 defineProps({
@@ -100,11 +108,11 @@ function onCloseMenu() {
         opacity: 0; /* Start with 0 opacity */
         position: absolute;
         left: -52px;
-        width: 100px;
+        width: 140px;
         animation: fadeIn 0.1s linear forwards;
 
         @media (max-width: 600px) {
-          left: -44px;
+          left: -74px;
         }
 
         &-item {
@@ -117,6 +125,15 @@ function onCloseMenu() {
           display: flex;
           justify-content: center;
           align-items: center;
+
+          &.forward {
+            color: #fafafa;
+            background-color: #15803dff;
+          }
+          &.back {
+            color: #fafafa;
+            background-color: #035294;
+          }
         }
       }
 
@@ -131,4 +148,11 @@ function onCloseMenu() {
     }
   }
 }
+
+//a.router-link-active {
+//  background-color: lightblue;
+//}
+//a.router-link-exact-active {
+//  background-color: #71ee8b;
+//}
 </style>

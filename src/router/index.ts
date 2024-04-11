@@ -4,6 +4,8 @@ import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FirebaseAuth } from '@/firebase/firebaseConfig'
+import ProductsView from '@/views/ProductsView.vue'
+import NewProductView from '@/views/NewProductView.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +17,24 @@ export const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/products',
+      meta: {
+        requiresAuth: true
+      },
+      children: [
+        {
+          path: '',
+          name: 'products',
+          component: ProductsView
+        },
+        {
+          path: 'new',
+          name: 'new-product',
+          component: NewProductView
+        }
+      ]
     },
     {
       path: '/about',
