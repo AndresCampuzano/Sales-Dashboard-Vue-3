@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FirebaseAuth } from '@/firebase/firebaseConfig'
 import ProductsView from '@/views/ProductsView.vue'
 import NewProductView from '@/views/NewProductView.vue'
+import CustomersView from '@/views/CustomersView.vue'
+import NewCustomerView from '@/views/NewCustomerView.vue'
+import ExpensesView from '@/views/ExpensesView.vue'
+import NewExpenseView from '@/views/NewExpenseView.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,12 +40,40 @@ export const router = createRouter({
       ]
     },
     {
-      path: '/about',
-      name: 'about',
-      component: AboutView,
+      path: '/customers',
       meta: {
         requiresAuth: true
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'customers',
+          component: CustomersView
+        },
+        {
+          path: 'new',
+          name: 'new-customer',
+          component: NewCustomerView
+        }
+      ]
+    },
+    {
+      path: '/expenses',
+      meta: {
+        requiresAuth: true
+      },
+      children: [
+        {
+          path: '',
+          name: 'expenses',
+          component: ExpensesView
+        },
+        {
+          path: 'new',
+          name: 'new-expense',
+          component: NewExpenseView
+        }
+      ]
     },
     {
       path: '/login',
