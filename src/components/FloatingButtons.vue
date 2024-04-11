@@ -1,4 +1,5 @@
 <template>
+  <div class="opaque-bg" v-if="isOpen"></div>
   <div class="floating" v-click-outside="onCloseMenu">
     <div class="anchor">
       <div @click="isOpen = !isOpen" class="main-button">
@@ -7,7 +8,7 @@
       <template v-if="isOpen">
         <div class="menu" v-scroll-event="onCloseMenu">
           <div
-            v-for="(item, index) in menu"
+            v-for="(item, index) in sortedMenu"
             :key="item.label"
             @click="isOpen = !isOpen"
             class="menu-options-container"
@@ -35,10 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import { type PropType, ref } from 'vue'
+import { onBeforeMount, type PropType, ref } from 'vue'
 import MenuIcon from '@/components/icons/MenuIcon.vue'
-
-const isOpen = ref<boolean>(false)
 
 export interface Menu {
   label: string
@@ -47,11 +46,18 @@ export interface Menu {
   back?: boolean
 }
 
-defineProps({
+const isOpen = ref<boolean>(false)
+const sortedMenu = ref<Menu[]>([])
+
+const props = defineProps({
   menu: {
     required: true,
     type: Array as PropType<Menu[]>
   }
+})
+
+onBeforeMount(() => {
+  sortedMenu.value = props.menu.map((x) => ({ ...x }))?.reverse()
 })
 
 function dynamicPosition(index: number, base: number): number {
@@ -69,8 +75,19 @@ function onCloseMenu() {
 </script>
 
 <style scoped lang="scss">
+.opaque-bg {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(22, 26, 28, 0.49);
+  backdrop-filter: blur(4px);
+}
+
 .floating {
-  z-index: 1;
+  z-index: 3;
   position: fixed;
   right: 60px;
   bottom: 60px;

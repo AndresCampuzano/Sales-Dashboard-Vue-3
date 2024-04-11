@@ -221,6 +221,7 @@ function badgeColor(color: string) {
 }
 .t-2-product-1 {
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   height: 37px;
@@ -228,6 +229,7 @@ function badgeColor(color: string) {
 }
 .t-2-product-2 {
   position: absolute;
+  z-index: 1;
   right: 0;
   bottom: 0;
   height: 37px;
@@ -235,6 +237,7 @@ function badgeColor(color: string) {
 }
 .t-3-product-1 {
   position: absolute;
+  z-index: 1;
   top: 3px;
   left: 1px;
   height: 30px;
@@ -242,6 +245,7 @@ function badgeColor(color: string) {
 }
 .t-3-product-2 {
   position: absolute;
+  z-index: 1;
   top: 3px;
   right: 1px;
   height: 30px;
@@ -249,6 +253,7 @@ function badgeColor(color: string) {
 }
 .t-3-product-3 {
   position: absolute;
+  z-index: 1;
   bottom: 3px;
   left: 0;
   right: 0;
@@ -259,6 +264,7 @@ function badgeColor(color: string) {
 
 .t-4-product-1 {
   position: absolute;
+  z-index: 1;
   top: 1px;
   left: 1px;
   height: 30px;
@@ -266,6 +272,7 @@ function badgeColor(color: string) {
 }
 .t-4-product-2 {
   position: absolute;
+  z-index: 1;
   top: 1px;
   right: 1px;
   height: 30px;
@@ -273,6 +280,7 @@ function badgeColor(color: string) {
 }
 .t-4-product-3 {
   position: absolute;
+  z-index: 1;
   bottom: 1px;
   left: 1px;
   height: 30px;
@@ -288,6 +296,7 @@ function badgeColor(color: string) {
 
 .t-5-product-1 {
   position: absolute;
+  z-index: 1;
   top: 1px;
   left: 1px;
   height: 30px;
@@ -295,6 +304,7 @@ function badgeColor(color: string) {
 }
 .t-5-product-2 {
   position: absolute;
+  z-index: 1;
   top: 1px;
   right: 1px;
   height: 30px;
@@ -302,6 +312,7 @@ function badgeColor(color: string) {
 }
 .t-5-product-3 {
   position: absolute;
+  z-index: 1;
   bottom: 1px;
   left: 1px;
   height: 30px;
@@ -309,6 +320,7 @@ function badgeColor(color: string) {
 }
 .t-5-product-4 {
   position: absolute;
+  z-index: 1;
   bottom: 1px;
   right: 1px;
   height: 30px;
@@ -316,6 +328,7 @@ function badgeColor(color: string) {
 }
 .floating-container-total-products {
   position: absolute;
+  z-index: 1;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
