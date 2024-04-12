@@ -17,8 +17,8 @@ app.use(router)
 app.directive('click-outside', clickOutsideDirective)
 app.directive('scroll-event', ScrollDirective)
 app.use(Vue3Toasity, {
-  autoClose: 3000
-  // theme: 'dark'
+  autoClose: 3000,
+  theme: 'colored'
 } as ToastContainerOptions)
 
 app.mount('#app')
