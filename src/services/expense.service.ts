@@ -1,10 +1,10 @@
 import type { ExpenseInterface } from '../types/types'
-import { dynamicFetch, dynamicPost } from '../utils/dynamicFetch.ts'
+import { dynamicDelete, dynamicFetch, dynamicPost, dynamicUpdate } from '../utils/dynamicFetch.ts'
 
 /**
  * Fetches an Expense
  */
-export async function getExpense(id: string): Promise<ExpenseInterface | undefined> {
+export async function getExpense(id: string): Promise<ExpenseInterface> {
   return await dynamicFetch(`expenses/${id}`)
 }
 
@@ -20,26 +20,13 @@ export async function getExpenses(): Promise<ExpenseInterface[] | []> {
  */
 export async function postExpense(data: ExpenseInterface): Promise<void> {
   await dynamicPost('expenses', data)
-  // await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(data)
-  // })
 }
 
 /**
  * Updates an Expense
  */
 export async function updateExpense(id: string, data: ExpenseInterface): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/expenses/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  await dynamicUpdate(`expenses/${id}`, data)
 }
 
 /**
@@ -49,4 +36,5 @@ export async function deleteExpense(id: string): Promise<void> {
   await fetch(`${import.meta.env.VITE_API_URL}/api/expenses/${id}`, {
     method: 'DELETE'
   })
+  await dynamicDelete(`expenses/${id}`)
 }

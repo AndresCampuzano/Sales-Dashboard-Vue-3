@@ -8,14 +8,14 @@
       <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onSubmit">
         <form-radio
           v-model="state.form.type"
-          value="instagram"
+          value="instagram_ad"
           id="instagram-radio"
           name="expense-type"
           label="Anuncio de Instagram"
         />
         <form-radio
           v-model="state.form.type"
-          value="facebook"
+          value="facebook_ad"
           id="facebook-radio"
           name="expense-type"
           label="Anuncio de Facebook"
@@ -42,7 +42,7 @@
           label="Divisa"
           placeholder="Selecciona una divisa"
         />
-        <form-input v-model="state.form.price" id="price" type="number" label="Valor" required />
+        <form-input v-model="state.form.price" id="price" type="text" label="Valor" required />
         <form-input
           v-model="state.form.description"
           id="description"
@@ -50,15 +50,25 @@
           label="Descripción (opcional)"
           placeholder="Descripción"
         />
-        <FormButton text="Guardar" type="submit" :disabled="isFormFilledUp" />
-        <FormButton v-if="state.editing" text="Eliminar" type="button" style-type="danger" />
+        <FormButton
+          :text="state.editing ? 'Editar' : 'Guardar'"
+          type="submit"
+          :disabled="!isFormFilledUp"
+        />
+        <FormButton
+          v-if="state.editing"
+          @click="onDelete"
+          text="Eliminar"
+          type="button"
+          style-type="danger"
+        />
       </form>
     </section>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, reactive, computed } from 'vue'
+import { onBeforeMount, reactive, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
@@ -68,19 +78,16 @@ import FormSelect, { type SelectOptions } from '@/components/form-inputs/FormSel
 import { CURRENCIES, EXPENSES_TYPES } from '@/constants/constants.ts'
 import FormInput from '@/components/form-inputs/FormInput.vue'
 import type { ExpenseInterface } from '@/types/types.ts'
-import { postExpense } from '@/services/expense.service.ts'
+import {
+  deleteExpense,
+  getExpense,
+  postExpense,
+  updateExpense
+} from '@/services/expense.service.ts'
 import LoadingFormSkeleton from '@/components/LoadingFormSkeleton.vue'
 
 const router = useRoute()
-const expenseId = router.params.id
-
-onBeforeMount(() => {
-  if (expenseId) {
-    state.editing = true
-  } else {
-    state.loading = false
-  }
-})
+const expenseId = router.params.id as string
 
 const state = reactive({
   loading: true,
@@ -116,14 +123,46 @@ const state = reactive({
   }
 })
 
+onBeforeMount(async () => {
+  if (expenseId) {
+    state.editing = true
+    try {
+      await fetchData()
+    } catch (e) {
+      toast.error('Error al obtener información. ' + e)
+    } finally {
+      state.loading = false
+    }
+  } else {
+    state.loading = false
+  }
+})
+
+// Sets the price to 0 if the input is empty
+watch(
+  () => state.form.price,
+  (value: any) => {
+    // string | number
+    if (typeof value === 'string') {
+      state.form.price = Number(value)
+    } else if (value === '' || isNaN(value)) {
+      state.form.price = 0
+    }
+  }
+)
+
+async function fetchData() {
+  const data = await getExpense(expenseId)
+  state.form.name = data.name
+  state.form.currency = data.currency || CURRENCIES[0].value
+  state.form.price = data.price
+  state.form.description = data.description || ''
+  state.form.type = data.type
+}
+
 const isFormFilledUp = computed(() => {
-  const { currency, name, type, price } = state.form
-  return !(
-    (currency != undefined || null) &&
-    (type === 'other' ? name.length > 0 : true) &&
-    type.length > 0 &&
-    price > 0
-  )
+  const { name, type, price } = state.form
+  return type.trim().length > 0 && type === 'other' ? name.trim().length > 0 : price > 0
 })
 
 async function onSubmit() {
@@ -139,8 +178,21 @@ async function onSubmit() {
   }
 
   try {
-    await postExpense(data)
+    if (state.editing) {
+      await updateExpense(expenseId, data)
+    } else {
+      await postExpense(data)
+    }
     toast.success('Datos guardados!')
+  } catch (e) {
+    toast.error('Revisa los datos e intentalo nuevamente. ' + e)
+  }
+}
+
+async function onDelete() {
+  try {
+    await deleteExpense(expenseId)
+    toast.warning('Datos borrados')
   } catch (e) {
     toast.error('Revisa los datos e intentalo nuevamente. ' + e)
   }
