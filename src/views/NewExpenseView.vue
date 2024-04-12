@@ -3,7 +3,7 @@
   <main>
     <section class="max-w-lg m-auto px-3">
       <h1 class="text-2xl">Nuevo Gasto</h1>
-      <form class="m-6" @submit.prevent="onSubmit">
+      <form class="m-6 mb-24" @submit.prevent="onSubmit">
         <form-radio
           v-model="state.form.expenseType"
           value="instagram"
@@ -30,7 +30,18 @@
           :select-options="state.form.currencyOptions"
           id="currency-select"
           label="Divisa"
+          placeholder="Selecciona una divisa"
         />
+        <form-input v-model="state.form.price" id="price" type="number" label="Valor" required />
+        <form-input
+          v-model="state.form.description"
+          id="description"
+          type="text"
+          label="Descripción (opcional)"
+          placeholder="Descripción"
+          required
+        />
+
         <FormButton text="Guardar" type="submit" />
       </form>
     </section>
@@ -44,6 +55,7 @@ import FormRadio from '@/components/form-inputs/FormRadio.vue'
 import FormButton from '@/components/form-inputs/FormButton.vue'
 import FormSelect, { type SelectOptions } from '@/components/form-inputs/FormSelect.vue'
 import { CURRENCIES } from '@/constants/constants.ts'
+import FormInput from '@/components/form-inputs/FormInput.vue'
 
 const state = reactive({
   loading: true,
@@ -69,7 +81,9 @@ const state = reactive({
   form: {
     expenseType: '',
     currency: '',
-    currencyOptions: CURRENCIES.map((x) => ({ label: x.value, value: x.value })) as SelectOptions[]
+    currencyOptions: CURRENCIES.map((x) => ({ label: x.value, value: x.value })) as SelectOptions[],
+    price: 0,
+    description: ''
   }
 })
 

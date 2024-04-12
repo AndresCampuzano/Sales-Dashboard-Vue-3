@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <label :for="id">{{ label }}</label>
-    <select v-model="parentValue" :id="id" @change="handleChange" :required="required">
+  <div class="mb-6">
+    <label :for="id" class="block mb-2 font-medium">{{ label }}</label>
+    <select
+      v-model="parentValue"
+      :id="id"
+      @change="handleChange"
+      :required="required"
+      class="border rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400"
+    >
       <option disabled value="">{{ placeholder }}</option>
       <option v-for="item in selectOptions" :key="item.value" :value="item.value">
         {{ item.value }}
@@ -63,4 +69,9 @@ function handleChange(e: Event) {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+select {
+  width: 100%;
+  height: 48px;
+}
+</style>

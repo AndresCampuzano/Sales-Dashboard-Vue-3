@@ -9,7 +9,7 @@
       :name="name"
       :required="required"
     />
-    <label :for="id" class="ml-2 text-sm font-medium">{{ label }}</label>
+    <label :for="id" class="ml-2 font-medium">{{ label }}</label>
   </div>
 </template>
 
