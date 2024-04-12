@@ -8,7 +8,7 @@ import NewProductView from '@/views/NewProductView.vue'
 import CustomersView from '@/views/CustomersView.vue'
 import NewCustomerView from '@/views/NewCustomerView.vue'
 import ExpensesView from '@/views/ExpensesView.vue'
-import NewExpenseView from '@/views/NewExpenseView.vue'
+import ExpenseFormView from '@/views/ExpenseFormView.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,7 +71,12 @@ export const router = createRouter({
         {
           path: 'new',
           name: 'new-expense',
-          component: NewExpenseView
+          component: ExpenseFormView
+        },
+        {
+          path: 'edit/:id',
+          name: 'edit-expense',
+          component: ExpenseFormView
         }
       ]
     },

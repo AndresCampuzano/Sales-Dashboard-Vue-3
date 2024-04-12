@@ -69,9 +69,4 @@ function handleChange(e: Event) {
 }
 </script>
 
-<style lang="scss" scoped>
-select {
-  width: 100%;
-  height: 48px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 import type { ExpenseInterface } from '../types/types'
-import { dynamicFetch } from '../utils/dynamicFetch.ts'
+import { dynamicFetch, dynamicPost } from '../utils/dynamicFetch.ts'
 
 /**
  * Fetches an Expense
@@ -19,13 +19,14 @@ export async function getExpenses(): Promise<ExpenseInterface[] | []> {
  * Posts an Expense
  */
 export async function postExpense(data: ExpenseInterface): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  await dynamicPost('expenses', data)
+  // await fetch(`${import.meta.env.VITE_API_URL}/api/expenses`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(data)
+  // })
 }
 
 /**
