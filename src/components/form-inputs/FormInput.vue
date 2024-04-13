@@ -6,9 +6,10 @@
       @input="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value)"
       :type="type"
       :id="id"
-      class="border rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400"
+      class="border rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 disabled:opacity-40"
       :placeholder="placeholder"
       :required="required"
+      :disabled="disabled"
     />
   </div>
 </template>
@@ -38,6 +39,10 @@ defineProps({
     default: ''
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   }

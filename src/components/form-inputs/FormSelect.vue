@@ -6,7 +6,8 @@
       :id="id"
       @change="handleChange"
       :required="required"
-      class="border rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400"
+      class="border rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 disabled:opacity-40"
+      :disabled="disabled"
     >
       <option disabled value="">{{ placeholder }}</option>
       <option v-for="item in selectOptions" :key="item.value" :value="item.value">
@@ -48,6 +49,10 @@ const props = defineProps({
     default: 'placeholder'
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   }

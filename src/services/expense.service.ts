@@ -33,8 +33,5 @@ export async function updateExpense(id: string, data: ExpenseInterface): Promise
  * Deletes an Expense
  */
 export async function deleteExpense(id: string): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/expenses/${id}`, {
-    method: 'DELETE'
-  })
   await dynamicDelete(`expenses/${id}`)
 }

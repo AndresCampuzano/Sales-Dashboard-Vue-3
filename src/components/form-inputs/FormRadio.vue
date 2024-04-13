@@ -8,6 +8,8 @@
       :id="id"
       :name="name"
       :required="required"
+      :disabled="disabled"
+      class="disabled:opacity-40"
     />
     <label :for="id" class="ml-2 font-medium">{{ label }}</label>
   </div>
@@ -40,6 +42,10 @@ const props = defineProps({
     default: ''
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   }

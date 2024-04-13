@@ -12,6 +12,7 @@
           id="instagram-radio"
           name="expense-type"
           label="Anuncio de Instagram"
+          :disabled="state.lockUI"
         />
         <form-radio
           v-model="state.form.type"
@@ -19,6 +20,7 @@
           id="facebook-radio"
           name="expense-type"
           label="Anuncio de Facebook"
+          :disabled="state.lockUI"
         />
         <form-radio
           v-model="state.form.type"
@@ -26,6 +28,7 @@
           id="other-radio"
           name="expense-type"
           label="Otro"
+          :disabled="state.lockUI"
         />
         <form-input
           v-if="state.form.type === 'other'"
@@ -34,6 +37,7 @@
           type="text"
           label="Tipo del gasto"
           placeholder="ej. Hilos"
+          :disabled="state.lockUI"
         />
         <form-select
           v-model="state.form.currency"
@@ -41,19 +45,28 @@
           id="currency-select"
           label="Divisa"
           placeholder="Selecciona una divisa"
+          :disabled="state.lockUI"
         />
-        <form-input v-model="state.form.price" id="price" type="text" label="Valor" required />
+        <form-input
+          v-model="state.form.price"
+          id="price"
+          type="text"
+          label="Valor"
+          required
+          :disabled="state.lockUI"
+        />
         <form-input
           v-model="state.form.description"
           id="description"
           type="text"
           label="Descripción (opcional)"
           placeholder="Descripción"
+          :disabled="state.lockUI"
         />
         <FormButton
           :text="state.editing ? 'Editar' : 'Guardar'"
           type="submit"
-          :disabled="!isFormFilledUp"
+          :disabled="!isFormFilledUp || state.lockUI"
         />
         <FormButton
           v-if="state.editing"
@@ -61,6 +74,7 @@
           text="Eliminar"
           type="button"
           style-type="danger"
+          :disabled="state.lockUI"
         />
       </form>
     </section>
@@ -70,6 +84,7 @@
 <script lang="ts" setup>
 import { onBeforeMount, reactive, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import appRouter from '@/router'
 import { toast } from 'vue3-toastify'
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
 import FormRadio from '@/components/form-inputs/FormRadio.vue'
@@ -92,6 +107,7 @@ const expenseId = router.params.id as string
 const state = reactive({
   loading: true,
   editing: false,
+  lockUI: false,
   menu: [
     {
       label: 'ventas',
@@ -193,6 +209,12 @@ async function onDelete() {
   try {
     await deleteExpense(expenseId)
     toast.warning('Datos borrados')
+    state.lockUI = true
+    // Go back one step in history
+    setTimeout(() => {
+      const pathToGoBack = router.fullPath.split('/')[1]
+      appRouter.push('/' + pathToGoBack)
+    }, 3000)
   } catch (e) {
     toast.error('Revisa los datos e intentalo nuevamente. ' + e)
   }
