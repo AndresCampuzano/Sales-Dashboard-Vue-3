@@ -217,6 +217,7 @@ async function onDelete() {
     }, 3000)
   } catch (e) {
     toast.error('Revisa los datos e intentalo nuevamente. ' + e)
+    state.lockUI = false
   }
 }
 </script>
