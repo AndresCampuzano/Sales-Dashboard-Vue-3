@@ -1,7 +1,7 @@
 <template>
-  <div
+  <li
     @click="isOpen = !isOpen"
-    class="my-3 p-2.5 bg-gray-800 rounded-md cursor-pointer"
+    class="my-3 p-2.5 bg-gray-800 rounded-md cursor-pointer list-none"
     :class="{
       'border-l-4 border-green-700': data.isRecurrence
     }"
@@ -113,11 +113,11 @@
         <hr class="border-slate-700 mt-4" />
         <div class="grid grid-cols-1 divide-y divide-slate-700 mt-4">
           <div>
-            <div class="mb-4">
-              <div
+            <ul class="mb-4">
+              <li
                 v-for="item in data.nestedTableData.nestedItems"
                 :key="item.id"
-                class="p-1 bg-gray-700 rounded-md my-3"
+                class="p-2 bg-gray-700 rounded-md my-3 list-none"
               >
                 <div class="flex items-center">
                   <img
@@ -136,10 +136,10 @@
                     <p class="ml-auto mr-2">{{ currencyFormat(item.price) }}</p>
                   </div>
                 </div>
-              </div>
-              <div class="w-full">
-                <p class="w-fit ml-auto mr-2.5">Total: {{ currencyFormat(data.totalPrice) }}</p>
-              </div>
+              </li>
+            </ul>
+            <div class="w-full mb-4">
+              <p class="w-fit ml-auto mr-2.5">Total: {{ currencyFormat(data.totalPrice) }}</p>
             </div>
           </div>
           <div>
@@ -174,7 +174,7 @@
         </div>
       </div>
     </template>
-  </div>
+  </li>
 </template>
 
 <script lang="ts" setup>
