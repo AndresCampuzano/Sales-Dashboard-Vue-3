@@ -11,8 +11,8 @@ export async function getExpense(id: string): Promise<ExpenseInterface> {
 /**
  * Fetches all Expenses
  */
-export async function getExpenses(): Promise<ExpenseInterface[] | []> {
-  return (await dynamicFetch('expenses')) as ExpenseInterface[] | []
+export async function getExpenses(): Promise<ExpenseInterface[]> {
+  return await dynamicFetch('expenses')
 }
 
 /**

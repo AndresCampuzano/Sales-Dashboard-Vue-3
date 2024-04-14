@@ -3,73 +3,25 @@
   <main>
     <section class="max-w-lg m-auto px-3">
       <h1 class="text-2xl">Gastos y Rendimientos</h1>
-      <ul>
-        <li class="my-3 p-2.5 bg-gray-800 rounded-md list-none">
-          <p class="mb-2 text-base">Abril 2024</p>
-          <div>
-            <div class="flex">
-              <span
-                class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"
-                >Gastos</span
-              >
-              <div class="flex flex-col">
-                <p class="ml-2 text-yellow-400 text-base">COP 35,000</p>
-                <p class="ml-2 text-yellow-400 text-base">AUD 100</p>
-              </div>
-            </div>
-            <div class="flex my-2">
-              <span
-                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-                >Ganancias</span
-              >
-              <div class="flex flex-col">
-                <p class="ml-2 text-green-400 text-base">COP 75,000</p>
-              </div>
-            </div>
-          </div>
-          <hr class="border-slate-700 my-4" />
-          <div class="flex flex-col">
-            <p class="text-base">Ingresos: COP 110,000</p>
-            <p class="text-base">numero de ventas: 3</p>
-          </div>
-          <hr class="border-slate-700 my-4" />
-          <ul>
-            <li class="p-2 bg-gray-700 rounded-md my-3 flex list-none">
-              <div>
-                <div class="rounded-full bg-gray-800 h-10 w-10 flex items-center justify-center">
-                  <diamond-icon v-if="false" :size="18" />
-                  <facebook-icon v-else-if="false" :size="22" />
-                  <instagram-icon v-else-if="true" :size="22" />
-                </div>
-              </div>
-              <div class="w-full ml-2">
-                <p class="text-base">Anuncio de Instagram</p>
-                <p class="text-sm opacity-70">COP 35,000 - miércoles 03 abr</p>
-                <hr class="my-2 opacity-30" />
-                <p class="text-sm opacity-70 mb-1">Ejemplo de descripción extralargo test test</p>
-              </div>
-              <div>
-                <div
-                  class="rounded-full hover:bg-gray-800 h-10 w-10 flex items-center justify-center"
-                >
-                  <edit-icon :size="18" />
-                </div>
-              </div>
-            </li>
-          </ul>
-        </li>
+      <loading-sales-item-skeleton v-if="state.loading" large />
+      <ul v-else>
+        <expense-item v-for="item in state.sales" :key="item.month" :data="item" />
       </ul>
     </section>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { onBeforeMount, reactive } from 'vue'
+import { toast } from 'vue3-toastify'
+import type { MonthlySalesAndExpensesInterface } from '@/types/types.ts'
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
-import DiamondIcon from '@/components/icons/DiamondIcon.vue'
-import FacebookIcon from '@/components/icons/FacebookIcon.vue'
-import InstagramIcon from '@/components/icons/InstagramIcon.vue'
-import EditIcon from '@/components/icons/EditIcon.vue'
+import ExpenseItem from '@/components/ExpenseItem.vue'
+import LoadingSalesItemSkeleton from '@/components/LoadingSalesItemSkeleton.vue'
+import { getSales } from '@/services/sale.service.ts'
+import { getExpenses } from '@/services/expense.service.ts'
+import { prepareDataSales } from '@/utils/prepareDataSales.ts'
+import { groupSalesByMonth } from '@/utils/groupSalesByMonth.ts'
 
 const state = reactive({
   loading: true,
@@ -91,6 +43,28 @@ const state = reactive({
       label: 'clientes',
       to: '/customers'
     }
-  ] as Menu[]
+  ] as Menu[],
+  sales: [] as MonthlySalesAndExpensesInterface[]
 })
+
+onBeforeMount(async () => {
+  try {
+    await fetchData()
+  } catch (e) {
+    toast.error('Error al obtener información. ' + e)
+  } finally {
+    state.loading = false
+  }
+})
+
+async function fetchData() {
+  const sales = await getSales()
+  const expenses = await getExpenses()
+
+  const { salesWithExpenses } = groupSalesByMonth({
+    sales: prepareDataSales(sales),
+    expenses
+  })
+  state.sales = salesWithExpenses
+}
 </script>

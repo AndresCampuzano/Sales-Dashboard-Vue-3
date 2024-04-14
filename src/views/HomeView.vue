@@ -4,7 +4,7 @@
     <section class="max-w-lg m-auto px-3">
       <h1 class="text-2xl">Ventas</h1>
       <template v-if="state.loading">
-        <loading-sales-item-skeleton />
+        <loading-sales-item-skeleton :show-circle="true" />
       </template>
       <summary-item v-for="item in state.data" :key="item.id" :data="item" />
     </section>

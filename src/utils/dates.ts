@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 /**
  * @private
  */
@@ -47,4 +49,14 @@ export function sortArrayByMonthAndYear<T>(arr: T[]): T[] {
     }
   }
   return arr.sort(compareDates)
+}
+
+/**
+ * By a given month and year, returns the month and year in spanish
+ * @example "January 2021" -> "Enero 2021"
+ */
+export function localizeMonthInUI(monthString: string): string {
+  const dateTime = DateTime.fromFormat(monthString, 'MMMM yyyy')
+  const localizedMonth = dateTime.setLocale('es').toFormat('MMMM yyyy')
+  return localizedMonth.charAt(0).toUpperCase() + localizedMonth.slice(1)
 }
