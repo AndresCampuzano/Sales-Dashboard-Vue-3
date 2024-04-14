@@ -2,7 +2,7 @@
   <li class="my-3 p-2.5 bg-gray-800 rounded-md list-none">
     <p class="mb-2 text-base">{{ localizeMonthInUI(data.month) }}</p>
     <div>
-      <div v-if="data.sortedExpenses" class="flex">
+      <div v-if="data.sortedExpenses.length" class="flex">
         <span
           class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"
           >Gastos</span
@@ -22,14 +22,14 @@
           </p>
         </div>
       </div>
-      <div v-if="earnings" class="flex my-2">
+      <div v-if="earnings.render" class="flex my-2">
         <span
           class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
           >Ganancias</span
         >
         <div class="flex flex-col">
           <p class="ml-2 text-green-400 text-base">
-            {{ currencyFormat(data.revenueWithoutExpenses - earnings, CURRENCIES[0].value) }}
+            {{ currencyFormat(data.revenueWithoutExpenses - earnings.value, CURRENCIES[0].value) }}
           </p>
         </div>
       </div>
@@ -44,7 +44,7 @@
       </template>
       <template v-else>
         <p class="text-base">Ingresos: {{ currencyFormat(data.revenueWithoutExpenses) }}</p>
-        <p v-if="data.allItems" class="text-base">
+        <p v-if="data.allItems?.length" class="text-base">
           numero de ventas:
           {{ data.allItems.length }}
         </p>
@@ -111,7 +111,10 @@ const props = defineProps({
   }
 })
 
-const earnings = computed<number>(() => {
+const earnings = computed<{
+  render: boolean
+  value: number
+}>(() => {
   const expenseWithCurrency = props.data.sortedExpenses.find(
     (exp) => exp.currencyKey === CURRENCIES[0].value
   )
@@ -121,7 +124,10 @@ const earnings = computed<number>(() => {
     totalExpensesWithCurrency = expenseWithCurrency.items.reduce((a, b) => a + b.price, 0)
   }
 
-  return totalExpensesWithCurrency
+  return {
+    render: props.data.revenueWithoutExpenses - totalExpensesWithCurrency > 0,
+    value: totalExpensesWithCurrency
+  }
 })
 
 /**
