@@ -143,13 +143,16 @@ onBeforeMount(async () => {
   if (expenseId) {
     state.editing = true
     try {
-      await fetchData()
+      await fetchAndLoadData()
     } catch (e) {
       toast.error('Error al obtener información. ' + e)
     } finally {
       state.loading = false
     }
   } else {
+    state.form.type = EXPENSES_TYPES[0].value
+    state.form.currency = CURRENCIES[0].value
+    state.form.price = 23800
     state.loading = false
   }
 })
@@ -167,7 +170,7 @@ watch(
   }
 )
 
-async function fetchData() {
+async function fetchAndLoadData() {
   const data = await getExpense(expenseId)
   state.form.name = data.name
   state.form.currency = data.currency || CURRENCIES[0].value
