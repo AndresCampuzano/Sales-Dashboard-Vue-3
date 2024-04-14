@@ -2,23 +2,35 @@
   <li class="my-3 p-2.5 bg-gray-800 rounded-md list-none">
     <p class="mb-2 text-base">{{ localizeMonthInUI(data.month) }}</p>
     <div>
-      <div class="flex">
+      <div v-if="data.sortedExpenses" class="flex">
         <span
           class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"
           >Gastos</span
         >
         <div class="flex flex-col">
-          <p class="ml-2 text-yellow-400 text-base">COP 35,000</p>
-          <p class="ml-2 text-yellow-400 text-base">AUD 100</p>
+          <p
+            v-for="item in data.sortedExpenses"
+            :key="item.currencyKey"
+            class="ml-2 text-yellow-400 text-base"
+          >
+            {{
+              currencyFormat(
+                item.items.reduce((a, b) => a + b.price, 0),
+                item.currencyKey
+              )
+            }}
+          </p>
         </div>
       </div>
-      <div class="flex my-2">
+      <div v-if="earnings" class="flex my-2">
         <span
           class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
           >Ganancias</span
         >
         <div class="flex flex-col">
-          <p class="ml-2 text-green-400 text-base">COP 75,000</p>
+          <p class="ml-2 text-green-400 text-base">
+            {{ currencyFormat(data.revenueWithoutExpenses - earnings, CURRENCIES[0].value) }}
+          </p>
         </div>
       </div>
     </div>
@@ -86,16 +98,30 @@ import FacebookIcon from '@/components/icons/FacebookIcon.vue'
 import InstagramIcon from '@/components/icons/InstagramIcon.vue'
 import EditIcon from '@/components/icons/EditIcon.vue'
 import type { ExpenseInterface, MonthlySalesAndExpensesInterface } from '@/types/types.ts'
-import type { PropType } from 'vue'
+import { computed, type PropType } from 'vue'
 import { localizeMonthInUI } from '../utils/dates.ts'
 import { currencyFormat } from '../utils/currencyFormat.ts'
 import { DateTime } from 'luxon'
+import { CURRENCIES } from '@/constants/constants.ts'
 
 const props = defineProps({
   data: {
     required: true,
     type: {} as PropType<MonthlySalesAndExpensesInterface>
   }
+})
+
+const earnings = computed<number>(() => {
+  const expenseWithCurrency = props.data.sortedExpenses.find(
+    (exp) => exp.currencyKey === CURRENCIES[0].value
+  )
+  let totalExpensesWithCurrency = 0
+
+  if (expenseWithCurrency && expenseWithCurrency.items) {
+    totalExpensesWithCurrency = expenseWithCurrency.items.reduce((a, b) => a + b.price, 0)
+  }
+
+  return totalExpensesWithCurrency
 })
 
 /**
