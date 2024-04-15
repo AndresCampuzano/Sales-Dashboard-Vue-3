@@ -128,9 +128,7 @@
                   <div class="ml-3 flex w-full">
                     <p class="text-base">
                       {{ item.name }}
-                      <span class="badge" :style="badgeColor(item.color)">
-                        {{ item.color }}
-                      </span>
+                      <colored-badge :label="item.color" :color="item.color" />
                     </p>
 
                     <p class="ml-auto mr-2">{{ currencyFormat(item.price) }}</p>
@@ -144,16 +142,8 @@
           </div>
           <div>
             <div class="mt-4 p-2 bg-gray-700 rounded-md">
-              <div v-if="data.isRecurrence">
-                <span
-                  class="badge"
-                  :style="{
-                    backgroundColor: '#24a124',
-                    color: '#fafafa'
-                  }"
-                >
-                  {{ data.totalSales.length }} compras
-                </span>
+              <div v-if="data.isRecurrence" class="mb-2">
+                <colored-badge :label="`${data.totalSales.length} compras`" primary />
               </div>
               <p>{{ data.clientName }}</p>
               <a
@@ -183,6 +173,7 @@ import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
 import { colorFromConstants } from '@/utils/colorFromConstants.ts'
 import { currencyFormat } from '../utils/currencyFormat.ts'
+import ColoredBadge from '@/components/ColoredBadge.vue'
 
 const isOpen = ref(false)
 

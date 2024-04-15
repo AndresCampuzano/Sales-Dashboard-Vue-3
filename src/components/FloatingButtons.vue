@@ -2,7 +2,7 @@
   <div class="opaque-bg" v-if="isOpen"></div>
   <div class="floating" v-click-outside="onCloseMenu">
     <div class="anchor">
-      <div @click="isOpen = !isOpen" class="main-button">
+      <div @click="isOpen = !isOpen" class="main-button shadow-lg">
         <menu-icon :size="30" />
       </div>
       <template v-if="isOpen">
@@ -104,7 +104,8 @@ function onCloseMenu() {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #035294;
+      background-color: var(--color-primary);
+      border: 1px solid rgba(187, 187, 187, 0.49);
       color: white;
       border-radius: 50%;
       width: 50px;
@@ -149,7 +150,7 @@ function onCloseMenu() {
           }
           &.back {
             color: #fafafa;
-            background-color: #035294;
+            background-color: var(--color-primary);
           }
         }
       }

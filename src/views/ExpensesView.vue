@@ -51,7 +51,7 @@ onBeforeMount(async () => {
   try {
     await fetchData()
   } catch (e) {
-    toast.error('Error al obtener información. ' + e)
+    toast.error('Error al obtener la información. ' + e)
   } finally {
     state.loading = false
   }

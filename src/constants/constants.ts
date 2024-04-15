@@ -18,7 +18,8 @@ export const COLORS = [
   },
   {
     label: 'Amarillo',
-    color: '#e0e010'
+    color: '#e0e010',
+    textColor: '#070707'
   },
   {
     label: 'Morado',
@@ -35,7 +36,8 @@ export const COLORS = [
   },
   {
     label: 'Naranja',
-    color: '#e07c10'
+    color: '#e07c10',
+    textColor: '#070707'
   },
   {
     label: 'Rosado',

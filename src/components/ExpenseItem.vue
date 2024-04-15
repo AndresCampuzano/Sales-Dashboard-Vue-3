@@ -11,7 +11,7 @@
           <p
             v-for="item in data.sortedExpenses"
             :key="item.currencyKey"
-            class="ml-2 text-yellow-400 text-base"
+            class="ml-3 text-yellow-400 text-base"
           >
             {{
               currencyFormat(
@@ -28,7 +28,7 @@
           >Ganancias</span
         >
         <div class="flex flex-col">
-          <p class="ml-2 text-green-400 text-base">
+          <p class="ml-3 text-green-400 text-base">
             {{ currencyFormat(data.revenueWithoutExpenses - earnings.value, CURRENCIES[0].value) }}
           </p>
         </div>
@@ -64,7 +64,7 @@
             <diamond-icon v-else :size="18" />
           </div>
         </div>
-        <div class="w-full ml-2">
+        <div class="w-full ml-3">
           <p class="text-base">{{ expense.name }}</p>
           <p class="text-sm opacity-70">
             {{ currencyFormat(expense.price, expense.currency) }} -

@@ -21,3 +21,9 @@ we still enforce color-scheme: dark, despite the user preference */
 /*#app {*/
 /*  max-width: 1280px;*/
 /*}*/
+
+@layer base {
+  :root {
+    --color-primary: #1e40af; /* #1e40af */
+  }
+}
