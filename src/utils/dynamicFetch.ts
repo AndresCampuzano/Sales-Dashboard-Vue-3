@@ -1,5 +1,9 @@
 import { trimStrings } from '@/utils/strings.ts'
 
+/**
+ * @private
+ *
+ */
 async function handleError(res: Response) {
   const responseMessage = await res.text()
   const errorMessage = `Status: ${res.status}, Message: ${responseMessage}`
