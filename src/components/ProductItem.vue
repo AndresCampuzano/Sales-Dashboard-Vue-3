@@ -1,11 +1,12 @@
 <template>
   <li class="p-2 bg-gray-800 rounded-md my-3 flex list-none">
     <div class="flex items-center">
-      <img :src="data.image" class="rounded-full h-10 w-12 object-cover" :alt="data.name" />
+      <img :src="data.image" class="rounded-full h-10 w-14 object-cover" :alt="data.name" />
     </div>
     <div class="w-full ml-3">
       <div>
         <p class="text-base">{{ data.name }}</p>
+        <p class="text-base">{{ currencyFormat(data.price) }}</p>
         <div class="flex">
           <div
             v-for="item in data.available_colors"
@@ -34,8 +35,9 @@ import type { PropType } from 'vue'
 import type { Item } from '@/types/types.ts'
 import { colorFromConstants } from '@/utils/colorFromConstants.ts'
 import EditIcon from '@/components/icons/EditIcon.vue'
+import { currencyFormat } from '../utils/currencyFormat.ts'
 
-const props = defineProps({
+defineProps({
   data: {
     required: true,
     type: {} as PropType<Item>
