@@ -22,33 +22,14 @@ export async function dynamicFetch<T>(url: string): Promise<T> {
 }
 
 /**
- * Posts data from the specified URL using the fetch API.
+ * Posts or Updates data from the specified URL using the fetch API.
  * If the response is not successful (HTTP status code other than 2xx),
  * an error will be thrown with the response text as the error message.
  *
  */
-export async function dynamicPost(url: string, data: any) {
+export async function dynamicUpload(url: string, data: any, method: 'PUT' | 'POST'): Promise<void> {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/${url}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(trimStrings(data))
-  })
-  if (!response.ok) {
-    await handleError(response)
-  }
-}
-
-/**
- * Updates data from the specified URL using the fetch API.
- * If the response is not successful (HTTP status code other than 2xx),
- * an error will be thrown with the response text as the error message.
- *
- */
-export async function dynamicUpdate(url: string, data: any) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/${url}`, {
-    method: 'PUT',
+    method: method,
     headers: {
       'Content-Type': 'application/json'
     },

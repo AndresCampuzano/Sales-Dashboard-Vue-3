@@ -1,5 +1,5 @@
 import type { ExpenseInterface } from '../types/types'
-import { dynamicDelete, dynamicFetch, dynamicPost, dynamicUpdate } from '../utils/dynamicFetch.ts'
+import { dynamicDelete, dynamicFetch, dynamicUpload } from '../utils/dynamicFetch.ts'
 
 /**
  * Fetches an Expense
@@ -19,14 +19,14 @@ export async function getExpenses(): Promise<ExpenseInterface[]> {
  * Posts an Expense
  */
 export async function postExpense(data: ExpenseInterface): Promise<void> {
-  await dynamicPost('expenses', data)
+  await dynamicUpload('expenses', data, 'POST')
 }
 
 /**
  * Updates an Expense
  */
 export async function updateExpense(id: string, data: ExpenseInterface): Promise<void> {
-  await dynamicUpdate(`expenses/${id}`, data)
+  await dynamicUpload(`expenses/${id}`, data, 'PUT')
 }
 
 /**
