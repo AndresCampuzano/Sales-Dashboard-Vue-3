@@ -1,3 +1,5 @@
+import { trimStrings } from '@/utils/strings.ts'
+
 async function handleError(res: Response) {
   const responseMessage = await res.text()
   const errorMessage = `Status: ${res.status}, Message: ${responseMessage}`
@@ -31,7 +33,7 @@ export async function dynamicPost(url: string, data: any) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(trimStrings(data))
   })
   if (!response.ok) {
     await handleError(response)
@@ -50,7 +52,7 @@ export async function dynamicUpdate(url: string, data: any) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(trimStrings(data))
   })
   if (!response.ok) {
     await handleError(response)
