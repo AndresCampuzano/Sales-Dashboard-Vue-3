@@ -41,7 +41,7 @@ const btnStyle = computed<string>(() => {
   } else if (props.styleType === 'danger') {
     return 'bg-red-500'
   } else if (props.styleType === 'warning') {
-    return 'bg-yellow-500 text-yellow-900'
+    return 'bg-yellow-500'
   } else {
     return ''
   }
