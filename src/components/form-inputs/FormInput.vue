@@ -1,6 +1,9 @@
 <template>
   <div class="mb-6">
-    <label v-if="label" :for="id" class="block mb-2 font-medium">{{ label }}</label>
+    <label v-if="label" :for="id" class="block mb-2 font-medium"
+      >{{ label }}
+      <span v-if="required" class="text-red-600">*</span>
+    </label>
     <input
       :value="modelValue"
       @input="$emit('update:modelValue', ($event?.target as HTMLInputElement)?.value)"

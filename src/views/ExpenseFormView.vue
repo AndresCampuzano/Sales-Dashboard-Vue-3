@@ -43,21 +43,22 @@
           v-model="state.form.currency"
           :select-options="state.formPreloadedData.currencyOptions"
           id="currency-select"
-          label="Divisa"
+          label="Divisa del gasto"
           placeholder="Selecciona una divisa"
           :disabled="state.lockUI"
+          required
         />
         <form-input
           v-model="state.form.price"
           id="price"
           type="text"
-          label="Valor"
+          label="Valor del gasto"
           required
           :disabled="state.lockUI"
         />
         <form-input
           v-model="state.form.description"
-          id="description"
+          id="description del gasto"
           type="text"
           label="Descripción (opcional)"
           placeholder="Descripción"
@@ -95,8 +96,8 @@
 <script lang="ts" setup>
 import { onBeforeMount, reactive, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import appRouter from '@/router'
 import { toast } from 'vue3-toastify'
+import appRouter from '@/router'
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
 import FormRadio from '@/components/form-inputs/FormRadio.vue'
 import FormButton from '@/components/form-inputs/FormButton.vue'

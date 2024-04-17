@@ -11,6 +11,7 @@
     </div>
   </header>
   <RouterView />
+  <div class="mb-24"></div>
 </template>
 
 <script setup lang="ts">

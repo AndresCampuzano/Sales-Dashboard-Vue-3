@@ -4,7 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FirebaseAuth } from '@/firebase/firebaseConfig'
 import ProductsView from '@/views/ProductsView.vue'
-import NewProductView from '@/views/NewProductView.vue'
+import ProductFormView from '@/views/ProductFormView.vue'
 import CustomersView from '@/views/CustomersView.vue'
 import NewCustomerView from '@/views/NewCustomerView.vue'
 import ExpensesView from '@/views/ExpensesView.vue'
@@ -35,7 +35,7 @@ export const router = createRouter({
         {
           path: 'new',
           name: 'new-product',
-          component: NewProductView
+          component: ProductFormView
         }
       ]
     },

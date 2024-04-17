@@ -10,7 +10,7 @@
           Limpiar
         </p>
         <ul>
-          <product-item v-for="item in filteredProducts" :key="item._id" :data="item" />
+          <product-item v-for="item in filteredProducts.reverse()" :key="item._id" :data="item" />
         </ul>
       </template>
     </section>

@@ -1,6 +1,8 @@
 <template>
   <div class="mb-6">
-    <label :for="id" class="block mb-2 font-medium">{{ label }}</label>
+    <label :for="id" class="block mb-2 font-medium"
+      >{{ label }} <span v-if="required" class="text-red-600">*</span></label
+    >
     <select
       v-model="parentValue"
       :id="id"
