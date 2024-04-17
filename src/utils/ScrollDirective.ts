@@ -6,7 +6,11 @@ declare global {
   }
 }
 
-export default {
+/**
+ * Directive to trigger a given action when scroll is executed.
+ *
+ */
+const ScrollDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     el.scrollEvent = function (event: Event) {
       // Invoke the provided method with scroll event
@@ -19,3 +23,4 @@ export default {
     document.removeEventListener('scroll', el.scrollEvent)
   }
 }
+export default ScrollDirective

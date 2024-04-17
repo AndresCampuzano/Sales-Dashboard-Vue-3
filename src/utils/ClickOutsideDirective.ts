@@ -6,7 +6,11 @@ declare global {
   }
 }
 
-export default {
+/**
+ * Directive to handle click events occurring outside the bound element.
+ *
+ */
+const ClickOutsideDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     el.clickOutsideEvent = function (event: MouseEvent) {
       // Check if the clicked element is neither the element
@@ -23,3 +27,5 @@ export default {
     document.removeEventListener('click', el.clickOutsideEvent)
   }
 }
+
+export default ClickOutsideDirective

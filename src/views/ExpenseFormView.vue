@@ -79,6 +79,7 @@
       </form>
     </section>
   </main>
+  <custom-modal />
 </template>
 
 <script lang="ts" setup>
@@ -100,6 +101,7 @@ import {
   updateExpense
 } from '@/services/expense.service.ts'
 import LoadingFormSkeleton from '@/components/LoadingFormSkeleton.vue'
+import CustomModal from '@/components/CustomModal.vue'
 
 const router = useRoute()
 const expenseId = router.params.id as string
