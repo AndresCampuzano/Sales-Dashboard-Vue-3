@@ -18,7 +18,7 @@ const props = defineProps({
     default: 'button'
   },
   styleType: {
-    type: String as PropType<'primary' | 'secondary' | 'danger'>,
+    type: String as PropType<'primary' | 'secondary' | 'danger' | 'warning'>,
     default: 'primary'
   },
   text: {
@@ -33,13 +33,15 @@ const props = defineProps({
 
 defineEmits(['update:modelValue'])
 
-const btnStyle = computed(() => {
+const btnStyle = computed<string>(() => {
   if (props.styleType === 'primary') {
     return 'bg-blue-800'
   } else if (props.styleType === 'secondary') {
     return 'bg-slate-500'
   } else if (props.styleType === 'danger') {
     return 'bg-red-500'
+  } else if (props.styleType === 'warning') {
+    return 'bg-yellow-500 text-yellow-900'
   } else {
     return ''
   }

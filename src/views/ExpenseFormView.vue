@@ -65,12 +65,13 @@
         />
         <FormButton
           :text="state.editing ? 'Editar' : 'Guardar'"
+          :style-type="state.editing ? 'warning' : 'primary'"
           type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
         />
         <FormButton
           v-if="state.editing"
-          @click="onDelete"
+          @click="onOpenModal"
           text="Eliminar"
           type="button"
           style-type="danger"
@@ -79,7 +80,16 @@
       </form>
     </section>
   </main>
-  <custom-modal />
+  <custom-modal
+    v-if="state.modal"
+    title="Eliminar gasto"
+    description="¿Deseas eliminar el gasto?"
+    primary-button="Eliminar"
+    secondary-button="Cancelar"
+    is-danger
+    @close="onCloseModal"
+    @submit="onDelete"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -138,7 +148,8 @@ const state = reactive({
     currency: '',
     price: 0,
     description: ''
-  }
+  },
+  modal: false
 })
 
 onBeforeMount(async () => {
@@ -205,9 +216,20 @@ async function onSubmit() {
       await postExpense(data)
     }
     toast.success('Datos guardados!')
+    state.lockUI = true
+    goBack()
   } catch (e) {
     toast.error('Revisa los datos e intentalo nuevamente. ' + e)
+    state.lockUI = false
   }
+}
+
+// Go back one step in history
+function goBack() {
+  setTimeout(() => {
+    const pathToGoBack = router.fullPath.split('/')[1]
+    appRouter.push('/' + pathToGoBack)
+  }, 3000)
 }
 
 async function onDelete() {
@@ -215,14 +237,18 @@ async function onDelete() {
     await deleteExpense(expenseId)
     toast.warning('Datos borrados')
     state.lockUI = true
-    // Go back one step in history
-    setTimeout(() => {
-      const pathToGoBack = router.fullPath.split('/')[1]
-      appRouter.push('/' + pathToGoBack)
-    }, 3000)
+    goBack()
   } catch (e) {
     toast.error('Revisa los datos e intentalo nuevamente. ' + e)
     state.lockUI = false
   }
+}
+
+function onOpenModal() {
+  state.modal = true
+}
+
+function onCloseModal() {
+  state.modal = false
 }
 </script>
