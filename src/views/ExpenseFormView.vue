@@ -66,7 +66,7 @@
         />
         <FormButton
           :text="state.editing ? 'Editar' : 'Guardar'"
-          :style-type="state.editing ? 'warning' : 'primary'"
+          style-type="primary"
           type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
         />

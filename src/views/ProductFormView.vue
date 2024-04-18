@@ -62,7 +62,7 @@
         </div>
         <FormButton
           :text="state.editing ? 'Editar' : 'Guardar'"
-          :style-type="state.editing ? 'warning' : 'primary'"
+          style-type="primary"
           type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
         />
@@ -79,8 +79,8 @@
   </main>
   <custom-modal
     v-if="state.modal"
-    title="Eliminar gasto"
-    description="¿Deseas eliminar el gasto?"
+    title="Eliminar broche"
+    :description="`¿Deseas eliminar el broche ${state.form.name}?`"
     primary-button="Eliminar"
     secondary-button="Cancelar"
     is-danger
