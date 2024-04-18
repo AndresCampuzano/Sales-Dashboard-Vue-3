@@ -140,27 +140,12 @@
               <p class="w-fit ml-auto mr-2.5">Total: {{ currencyFormat(data.totalPrice) }}</p>
             </div>
           </div>
-          <div>
-            <div class="mt-4 p-2 bg-gray-700 rounded-md">
-              <div v-if="data.isRecurrence" class="mb-2">
-                <colored-badge :label="`${data.totalSales.length} compras`" primary />
-              </div>
-              <p>{{ data.clientName }}</p>
-              <a
-                :href="`https://www.instagram.com/${data.nestedTableData.nestedClient.instagram_account}`"
-                target="_blank"
-                class="font-medium text-blue-500 hover:text-blue-600"
-                >@{{ data.nestedTableData.nestedClient.instagram_account }}</a
-              >
-              <p>{{ data.nestedTableData.nestedClient.address }}</p>
-              <a
-                :href="'tel:' + data.nestedTableData.nestedClient.phone"
-                class="text-blue-500 hover:text-blue-600"
-                >{{ data.nestedTableData.nestedClient.phone }}</a
-              >
-              <p class="text-base">{{ data.city }} / {{ data.department }}</p>
-            </div>
-          </div>
+          <customer-item :data="data.nestedTableData.nestedClient" />
+          <colored-badge
+            class="ml-14"
+            :label="`${data.totalSales.length} ${data.isRecurrence ? 'compras realizadas' : 'compra realizada'} por el cliente`"
+            primary
+          />
         </div>
       </div>
     </template>
@@ -171,9 +156,9 @@
 import { computed, type PropType, ref } from 'vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
-import { colorFromLocalConstants } from '@/utils/colors.ts'
 import { currencyFormat } from '../utils/currencyFormat.ts'
 import ColoredBadge from '@/components/ColoredBadge.vue'
+import CustomerItem from '@/components/CustomerItem.vue'
 
 const isOpen = ref(false)
 
@@ -187,13 +172,6 @@ const props = defineProps({
 const products = computed<number>(() => {
   return props.data?.nestedTableData.nestedItems.length
 })
-
-function badgeColor(color: string) {
-  return {
-    backgroundColor: colorFromLocalConstants(color).bgColor,
-    color: colorFromLocalConstants(color).textColor
-  }
-}
 </script>
 
 <style scoped>
@@ -336,26 +314,5 @@ function badgeColor(color: string) {
 .single-product-img {
   height: 42px;
   width: 48px;
-}
-
-.badge {
-  padding: 0 12px;
-  border-radius: 6px;
-  width: fit-content;
-}
-
-@keyframes fadeTopToBottom {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeTopToBottom 0.5s ease forwards;
 }
 </style>

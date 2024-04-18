@@ -27,3 +27,18 @@ we still enforce color-scheme: dark, despite the user preference */
     --color-primary: #1e40af; /* #1e40af */
   }
 }
+
+@keyframes fadeTopToBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeTopToBottom 0.5s ease forwards;
+}

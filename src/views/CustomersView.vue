@@ -3,7 +3,7 @@
   <main>
     <section class="max-w-lg m-auto px-3">
       <h1 class="text-2xl">Clientes</h1>
-      <loading-sales-item-skeleton v-if="state.loading" />
+      <loading-sales-item-skeleton v-if="state.loading" show-circle />
       <template v-else>
         <form-input
           v-model="state.query"

@@ -7,13 +7,14 @@
       </div>
       <template v-if="isOpen">
         <div class="menu" v-scroll-event="onCloseMenu">
-          <div
+          <RouterLink
             v-for="(item, index) in sortedMenu"
             :key="item.label"
             @click="isOpen = !isOpen"
+            :to="item.to"
             class="menu-options-container"
             :style="{
-              top: `-${dynamicPosition(index, 40)}px`,
+              top: `-${dynamicPosition(index, 50)}px`,
               animationDelay: `${index / 10}s`
             }"
           >
@@ -24,11 +25,9 @@
                 back: item.back
               }"
             >
-              <RouterLink :to="item.to">
-                {{ item.label }}
-              </RouterLink>
+              {{ item.label }}
             </div>
-          </div>
+          </RouterLink>
         </div>
       </template>
     </div>
@@ -135,9 +134,9 @@ function onCloseMenu() {
 
         &-item {
           padding: 0 10px;
-          color: black;
-          background-color: #fafafa;
-          height: 30px;
+          color: #fafafa;
+          background-color: #01457c;
+          height: 40px;
           border-radius: 6px;
           cursor: pointer;
           display: flex;
@@ -147,10 +146,6 @@ function onCloseMenu() {
           &.forward {
             color: #fafafa;
             background-color: #15803dff;
-          }
-          &.back {
-            color: #fafafa;
-            background-color: var(--color-primary);
           }
         }
       }
