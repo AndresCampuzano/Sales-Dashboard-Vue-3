@@ -1,52 +1,37 @@
 import type { Item } from '../types/types'
+import { dynamicDelete, dynamicFetch, dynamicUpload } from '@/utils/dynamicFetch.ts'
 
 /**
  * Fetches an Item
  */
 export async function getItem(id: string): Promise<Item> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`)
-  return await res.json()
+  return await dynamicFetch(`items/${id}`)
 }
 
 /**
  * Fetches all Items
  */
 export async function getItems(): Promise<Item[]> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items`)
-  return await res.json()
+  return await dynamicFetch('items')
 }
 
 /**
  * Posts an Item
  */
 export async function postItem(data: Item): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/items`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  await dynamicUpload('items', data, 'POST')
 }
 
 /**
  * Updates an Item
  */
 export async function updateItem(id: string, data: Item): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  await dynamicUpload(`items/${id}`, data, 'PUT')
 }
 
 /**
  * Deletes an Item
  */
 export async function deleteItem(id: string): Promise<void> {
-  await fetch(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
-    method: 'DELETE'
-  })
+  await dynamicDelete(`items/${id}`)
 }

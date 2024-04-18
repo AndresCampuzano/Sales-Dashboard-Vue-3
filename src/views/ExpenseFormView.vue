@@ -184,19 +184,19 @@ watch(
   }
 )
 
-async function fetchAndLoadData() {
-  const data = await getExpense(expenseId)
-  state.form.name = data.name
-  state.form.currency = data.currency || CURRENCIES[0].value
-  state.form.price = data.price
-  state.form.description = data.description || ''
-  state.form.type = data.type
-}
-
 const isFormFilledUp = computed(() => {
   const { name, type, price } = state.form
   return type.trim().length > 0 && type === 'other' ? name.trim().length > 0 : price > 0
 })
+
+async function fetchAndLoadData() {
+  const { name, currency, price, description, type } = await getExpense(expenseId)
+  state.form.name = name
+  state.form.currency = currency || CURRENCIES[0].value
+  state.form.price = price
+  state.form.description = description || ''
+  state.form.type = type
+}
 
 async function onSubmit() {
   const { currency, name, type, description, price } = state.form

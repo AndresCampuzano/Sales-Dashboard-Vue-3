@@ -66,13 +66,31 @@
           type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
         />
+        <FormButton
+          v-if="state.editing"
+          @click="onOpenModal"
+          text="Eliminar"
+          type="button"
+          style-type="danger"
+          :disabled="state.lockUI"
+        />
       </form>
     </section>
   </main>
+  <custom-modal
+    v-if="state.modal"
+    title="Eliminar gasto"
+    description="¿Deseas eliminar el gasto?"
+    primary-button="Eliminar"
+    secondary-button="Cancelar"
+    is-danger
+    @close="onCloseModal"
+    @submit="onDelete"
+  />
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, watch } from 'vue'
+import { computed, onBeforeMount, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import appRouter from '@/router'
@@ -84,7 +102,8 @@ import FormImage from '@/components/form-inputs/FormImage.vue'
 import { COLORS } from '@/constants/constants.ts'
 import ColoredBadge from '@/components/ColoredBadge.vue'
 import type { Item } from '@/types/types.ts'
-import { postItem } from '@/services/item.service.ts'
+import { deleteItem, getItem, postItem, updateItem } from '@/services/item.service.ts'
+import CustomModal from '@/components/CustomModal.vue'
 
 const router = useRoute()
 const productId = router.params.id as string
@@ -119,6 +138,23 @@ const state = reactive({
     image: '', // base64 or URL
     selectedColors: [] as Array<string>
     // unselectedColors: [] as Array<string>
+  },
+  modal: false
+})
+
+onBeforeMount(async () => {
+  if (productId) {
+    state.editing = true
+    try {
+      await fetchAndLoadData()
+    } catch (e) {
+      toast.error('Error al obtener la información. ' + e)
+    } finally {
+      state.loading = false
+    }
+  } else {
+    state.form.price = 100000
+    state.loading = false
   }
 })
 
@@ -148,6 +184,14 @@ const isFormFilledUp = computed<boolean>(() => {
   return name.trim().length > 0 && price > 0 && image.trim().length > 0 && selectedColors.length > 0
 })
 
+async function fetchAndLoadData() {
+  const { name, price, image, available_colors } = await getItem(productId)
+  state.form.name = name
+  state.form.price = price
+  state.form.image = image
+  state.form.selectedColors = available_colors
+}
+
 async function onSubmit() {
   const { name, price, image, selectedColors } = state.form
 
@@ -161,7 +205,11 @@ async function onSubmit() {
   }
 
   try {
-    await postItem(data)
+    if (state.editing) {
+      await updateItem(productId, data)
+    } else {
+      await postItem(data)
+    }
     toast.success('Datos guardados!')
     state.lockUI = true
     goBack()
@@ -179,6 +227,18 @@ function goBack() {
   }, 3000)
 }
 
+async function onDelete() {
+  try {
+    await deleteItem(productId)
+    toast.warning('Datos borrados')
+    state.lockUI = true
+    goBack()
+  } catch (e) {
+    toast.error('Revisa los datos e intentalo nuevamente. ' + e)
+    state.lockUI = false
+  }
+}
+
 function addToSelectedArr(label: string) {
   const item = COLORS.find((x) => x.label === label)?.label as string
   state.form.selectedColors = [...state.form.selectedColors, item]
@@ -186,5 +246,13 @@ function addToSelectedArr(label: string) {
 
 function deleteFromSelectedArr(label: string) {
   state.form.selectedColors = state.form.selectedColors.filter((item: string) => item !== label)
+}
+
+function onOpenModal() {
+  state.modal = true
+}
+
+function onCloseModal() {
+  state.modal = false
 }
 </script>

@@ -36,6 +36,11 @@ export const router = createRouter({
           path: 'new',
           name: 'new-product',
           component: ProductFormView
+        },
+        {
+          path: 'edit/:id',
+          name: 'edit-product',
+          component: ProductFormView
         }
       ]
     },
