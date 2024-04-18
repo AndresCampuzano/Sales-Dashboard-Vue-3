@@ -6,6 +6,7 @@ export interface Customer {
   department: string
   city: string
   phone: number
+  comments?: string
   created_at?: string
   updated_at?: string
 }

@@ -68,7 +68,7 @@ export function localizeMonthInUI(monthString: string): string {
  *
  * @param array The array to sort
  */
-export function sortByCreatedAt<T extends { created_at: string }>(array: T[]): T[] {
+export function sortByCreatedAt(array: any[]): any[] {
   return array.sort((a, b) => {
     const dateA = new Date(a.created_at).getTime()
     const dateB = new Date(b.created_at).getTime()
