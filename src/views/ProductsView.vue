@@ -42,7 +42,7 @@ const state = reactive({
     {
       label: 'nuevo broche',
       to: '/products/new',
-      forward: true
+      active: true
     },
     {
       label: 'clientes',

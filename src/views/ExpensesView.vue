@@ -33,7 +33,7 @@ const state = reactive({
     {
       label: 'nuevo gasto',
       to: '/expenses/new',
-      forward: true
+      active: true
     },
     {
       label: 'broches',

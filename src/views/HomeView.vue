@@ -27,7 +27,7 @@ const state = reactive({
     {
       label: 'nueva venta',
       to: '/',
-      forward: true
+      active: true
     },
     {
       label: 'gastos',

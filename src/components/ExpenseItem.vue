@@ -53,7 +53,7 @@
     <hr class="border-slate-700 my-4" />
     <ul>
       <li
-        v-for="expense in sortByCreatedA(data.allExpenses)"
+        v-for="expense in sortByCreatedAt(data.allExpenses)"
         :key="expense._id"
         class="p-2 bg-gray-700 rounded-md my-3 flex list-none"
       >
@@ -97,9 +97,9 @@ import DiamondIcon from '@/components/icons/DiamondIcon.vue'
 import FacebookIcon from '@/components/icons/FacebookIcon.vue'
 import InstagramIcon from '@/components/icons/InstagramIcon.vue'
 import EditIcon from '@/components/icons/EditIcon.vue'
-import type { ExpenseInterface, MonthlySalesAndExpensesInterface } from '@/types/types.ts'
-import { computed, type PropType } from 'vue'
-import { localizeMonthInUI } from '../utils/dates.ts'
+import type { MonthlySalesAndExpensesInterface } from '@/types/types.ts'
+import { computed, type PropType, ref } from 'vue'
+import { localizeMonthInUI, sortByCreatedAt } from '../utils/dates.ts'
 import { currencyFormat } from '../utils/currencyFormat.ts'
 import { DateTime } from 'luxon'
 import { CURRENCIES } from '@/constants/constants.ts'
@@ -129,16 +129,4 @@ const earnings = computed<{
     value: totalExpensesWithCurrency
   }
 })
-
-/**
- * Sorting the array by created_at property
- *
- */
-function sortByCreatedA(array: ExpenseInterface[]) {
-  return array.sort((a, b) => {
-    const dateA = new Date(a.created_at as string).getTime()
-    const dateB = new Date(b.created_at as string).getTime()
-    return dateB - dateA
-  })
-}
 </script>

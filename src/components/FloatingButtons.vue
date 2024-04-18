@@ -21,8 +21,7 @@
             <div
               class="menu-options-container-item"
               :class="{
-                forward: item.forward,
-                back: item.back
+                active: item.active
               }"
             >
               {{ item.label }}
@@ -41,8 +40,7 @@ import MenuIcon from '@/components/icons/MenuIcon.vue'
 export interface Menu {
   label: string
   to: string
-  forward?: boolean
-  back?: boolean
+  active?: boolean
 }
 
 const isOpen = ref<boolean>(false)
@@ -143,7 +141,7 @@ function onCloseMenu() {
           justify-content: center;
           align-items: center;
 
-          &.forward {
+          &.active {
             color: #fafafa;
             background-color: #15803dff;
           }

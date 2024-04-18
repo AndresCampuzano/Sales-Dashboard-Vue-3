@@ -15,7 +15,11 @@
           Limpiar
         </p>
         <ul>
-          <customer-item v-for="item in filteredCustomer" :key="item._id" :data="item" />
+          <customer-item
+            v-for="item in sortByCreatedAt(filteredCustomer)"
+            :key="item._id"
+            :data="item"
+          />
         </ul>
       </template>
     </section>
@@ -32,6 +36,7 @@ import FormInput from '@/components/form-inputs/FormInput.vue'
 import { normalizeString } from '@/utils/strings.ts'
 import { getCustomers } from '@/services/customer.service.ts'
 import CustomerItem from '@/components/CustomerItem.vue'
+import { sortByCreatedAt } from '@/utils/dates.ts'
 
 const state = reactive({
   loading: true,
@@ -51,7 +56,7 @@ const state = reactive({
     {
       label: 'nuevo cliente',
       to: '/customers/new',
-      forward: true
+      active: true
     }
   ] as Menu[],
   customers: [] as Customer[],

@@ -102,9 +102,12 @@
         <p class="text-base font-medium">{{ data.clientName }}</p>
         <p class="text-base">{{ data.city }} / {{ data.department }}</p>
         <p class="text-base font-thin">
-          {{ DateTime.fromISO(data.date).setLocale('es').toFormat('cccc dd LLL') }} ({{
-            DateTime.fromISO(data.date, {}).toRelative({ locale: 'es' })
-          }})
+          {{
+            DateTime.fromISO(data.date)
+              .setLocale('es')
+              .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+          }}
+          ({{ DateTime.fromISO(data.date, {}).toRelative({ locale: 'es' }) }})
         </p>
       </div>
     </div>

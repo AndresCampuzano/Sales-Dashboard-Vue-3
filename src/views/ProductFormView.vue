@@ -125,7 +125,7 @@ const state = reactive({
     {
       label: 'broches',
       to: '/products',
-      back: true
+      active: true
     },
     {
       label: 'clientes',

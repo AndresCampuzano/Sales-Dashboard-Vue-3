@@ -29,7 +29,7 @@ const state = reactive({
     {
       label: 'clientes',
       to: '/customers',
-      back: true
+      active: true
     }
   ] as Menu[]
 })

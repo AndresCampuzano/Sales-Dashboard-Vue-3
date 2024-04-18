@@ -20,6 +20,8 @@ const months = [
 
 /**
  * Sorts an array of objects by the "month" property in the format 'Month Year'.
+ * @warning
+ * It just accepts the format: month: "April 2024"
  */
 export function sortArrayByMonthAndYear<T>(arr: T[]): T[] {
   /**
@@ -59,4 +61,17 @@ export function localizeMonthInUI(monthString: string): string {
   const dateTime = DateTime.fromFormat(monthString, 'MMMM yyyy')
   const localizedMonth = dateTime.setLocale('es').toFormat('MMMM yyyy')
   return localizedMonth.charAt(0).toUpperCase() + localizedMonth.slice(1)
+}
+
+/**
+ * Sorting the array by the 'created_at' property
+ *
+ * @param array The array to sort
+ */
+export function sortByCreatedAt<T extends { created_at: string }>(array: T[]): T[] {
+  return array.sort((a, b) => {
+    const dateA = new Date(a.created_at).getTime()
+    const dateB = new Date(b.created_at).getTime()
+    return dateB - dateA
+  })
 }

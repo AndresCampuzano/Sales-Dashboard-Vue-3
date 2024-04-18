@@ -129,7 +129,7 @@ const state = reactive({
     {
       label: 'gastos',
       to: '/expenses',
-      back: true
+      active: true
     },
     {
       label: 'broches',
