@@ -9,6 +9,7 @@ import CustomersView from '@/views/CustomersView.vue'
 import NewCustomerView from '@/views/NewCustomerView.vue'
 import ExpensesView from '@/views/ExpensesView.vue'
 import ExpenseFormView from '@/views/ExpenseFormView.vue'
+import { authStore } from '@/stores/auth.ts'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,10 +111,13 @@ const getCurrentUser = () => {
 }
 
 router.beforeEach(async (to, _, next) => {
+  const store = authStore()
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (await getCurrentUser()) {
       next()
     } else {
+      store.user = null
       next('/login')
     }
   } else {

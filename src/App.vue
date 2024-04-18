@@ -5,7 +5,9 @@
         <img :src="photo" :alt="userOrEmail" class="rounded-full h-12 w-12" />
         <div class="ml-3 w-full items-center">
           <h3 class="text-2xl">Hola, {{ formattedUserOrEmail }}</h3>
-          <p @click="onLogOut" class="underline cursor-pointer hover:opacity-80">Cerrar sesión</p>
+          <p @click="onLogOut" class="w-fit underline cursor-pointer hover:opacity-80">
+            Cerrar sesión
+          </p>
         </div>
       </div>
     </div>
