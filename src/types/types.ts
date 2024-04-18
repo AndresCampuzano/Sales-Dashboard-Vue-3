@@ -1,4 +1,4 @@
-export interface Client {
+export interface Customer {
   _id?: string
   name: string
   instagram_account: string
@@ -31,10 +31,10 @@ export interface Sale {
   updated_at?: string
 }
 
-export interface SaleWithClientAndItemData {
+export interface SaleWithCustomerAndItemData {
   _id: string
   client_id: string
-  client: Client
+  client: Customer
   items: {
     item_id: string
     color: string
@@ -70,7 +70,7 @@ export interface SalesDataTable {
       color: string
       price: number
     }[]
-    nestedClient: Client
+    nestedClient: Customer
   }
 }
 

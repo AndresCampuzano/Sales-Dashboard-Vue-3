@@ -1,6 +1,6 @@
-import type { SalesDataTable, SaleWithClientAndItemData } from '../types/types.ts'
+import type { SalesDataTable, SaleWithCustomerAndItemData } from '../types/types.ts'
 
-export const prepareDataSales = (data: SaleWithClientAndItemData[]): SalesDataTable[] => {
+export const prepareDataSales = (data: SaleWithCustomerAndItemData[]): SalesDataTable[] => {
   // Sorting by date
   const sortedArray = data.sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()

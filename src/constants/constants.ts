@@ -96,7 +96,7 @@ export const CURRENCIES = [
 ]
 
 /**
- * @description Places available for the clients in CO
+ * @description Places available for customers in Colombia
  * @constant
  * @readonly
  */

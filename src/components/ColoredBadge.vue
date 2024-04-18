@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { colorFromConstants } from '@/utils/colorFromConstants.ts'
+import { colorFromLocalConstants } from '@/utils/colors.ts'
 
 const props = defineProps({
   color: {
@@ -27,8 +27,8 @@ const getColors = computed(() => {
   return {
     backgroundColor: props.primary
       ? 'var(--color-primary)'
-      : colorFromConstants(props.color).bgColor,
-    color: props.primary ? '#fafafa' : colorFromConstants(props.color).textColor
+      : colorFromLocalConstants(props.color).bgColor,
+    color: props.primary ? '#fafafa' : colorFromLocalConstants(props.color).textColor
   }
 })
 </script>

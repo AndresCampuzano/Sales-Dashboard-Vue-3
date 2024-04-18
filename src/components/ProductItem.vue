@@ -13,7 +13,7 @@
             :key="item"
             class="rounded-full h-4 w-4 mr-1"
             :style="{
-              backgroundColor: colorFromConstants(item).bgColor
+              backgroundColor: colorFromLocalConstants(item).bgColor
             }"
           ></div>
         </div>
@@ -33,9 +33,9 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { Item } from '@/types/types.ts'
-import { colorFromConstants } from '@/utils/colorFromConstants.ts'
+import { colorFromLocalConstants } from '@/utils/colors.ts'
 import EditIcon from '@/components/icons/EditIcon.vue'
-import { currencyFormat } from '../utils/currencyFormat.ts'
+import { currencyFormat } from '@/utils/currencyFormat.ts'
 
 defineProps({
   data: {

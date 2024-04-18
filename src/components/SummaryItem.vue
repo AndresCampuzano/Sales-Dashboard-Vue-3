@@ -171,7 +171,7 @@
 import { computed, type PropType, ref } from 'vue'
 import type { SalesDataTable } from '@/types/types.ts'
 import { DateTime } from 'luxon'
-import { colorFromConstants } from '@/utils/colorFromConstants.ts'
+import { colorFromLocalConstants } from '@/utils/colors.ts'
 import { currencyFormat } from '../utils/currencyFormat.ts'
 import ColoredBadge from '@/components/ColoredBadge.vue'
 
@@ -190,8 +190,8 @@ const products = computed<number>(() => {
 
 function badgeColor(color: string) {
   return {
-    backgroundColor: colorFromConstants(color).bgColor,
-    color: colorFromConstants(color).textColor
+    backgroundColor: colorFromLocalConstants(color).bgColor,
+    color: colorFromLocalConstants(color).textColor
   }
 }
 </script>
