@@ -114,7 +114,7 @@
     <template v-if="isOpen">
       <div class="fade-in">
         <hr class="border-slate-700 mt-4" />
-        <div class="grid grid-cols-1 divide-y divide-slate-700 mt-4">
+        <div class="grid grid-cols-1 mt-4">
           <div>
             <ul class="mb-4">
               <li
@@ -143,9 +143,10 @@
               <p class="w-fit ml-auto mr-2.5">Total: {{ currencyFormat(data.totalPrice) }}</p>
             </div>
           </div>
+          <hr class="border-slate-700 mt-4" />
           <customer-item :data="data.nestedTableData.nestedClient" />
           <colored-badge
-            class="ml-14"
+            class="ml-14 mb-3"
             :label="`${data.totalSales.length} ${data.isRecurrence ? 'compras realizadas' : 'compra realizada'} por el cliente`"
             primary
           />

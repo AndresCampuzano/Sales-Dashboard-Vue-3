@@ -39,6 +39,10 @@
             }}
             ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
           </p>
+          <template v-if="data?.comments">
+            <hr class="border-slate-700 my-4" />
+            <p class="text-base mb-1">{{ data.comments }}</p>
+          </template>
         </div>
       </div>
       <div>
