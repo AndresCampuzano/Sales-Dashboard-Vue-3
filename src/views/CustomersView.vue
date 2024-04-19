@@ -8,7 +8,7 @@
         <form-input
           v-model="state.query"
           id="query"
-          placeholder="Buscar cliente por nombre"
+          placeholder="Buscar cliente por nombre, ciudad, dept, instagram"
           class="mt-3"
         />
         <p v-if="state.query.trim()" @click="clearQuery" class="text-base underline mt-2 mb-3">
@@ -80,9 +80,13 @@ async function fetchData() {
 const filteredCustomer = computed<Customer[]>(() => {
   if (state.query) {
     return state.customers.filter((customer) => {
-      return normalizeString(customer.name.toLowerCase()).includes(
-        normalizeString(state.query.toLowerCase().trim())
-      )
+      const query = normalizeString(state.query.toLowerCase().trim())
+
+      const byName = normalizeString(customer.name.toLowerCase()).includes(query)
+      const byCity = normalizeString(customer.city.toLowerCase()).includes(query)
+      const byDepartment = normalizeString(customer.department.toLowerCase()).includes(query)
+      const byInstagram = normalizeString(customer.instagram_account.toLowerCase()).includes(query)
+      return byName || byCity || byDepartment || byInstagram
     })
   }
   return state.customers
