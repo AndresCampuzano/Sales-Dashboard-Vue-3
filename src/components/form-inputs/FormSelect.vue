@@ -13,7 +13,7 @@
     >
       <option disabled value="">{{ placeholder }}</option>
       <option v-for="item in selectOptions" :key="item.value" :value="item.value">
-        {{ item.value }}
+        {{ item.label }}
       </option>
     </select>
   </div>
@@ -26,7 +26,7 @@ const instance = getCurrentInstance()
 
 export interface SelectOptions {
   label: string
-  value: string
+  value: string | number
 }
 
 const props = defineProps({

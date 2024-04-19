@@ -36,6 +36,8 @@ const password = ref('')
 onBeforeMount(async () => {
   if (store.user) {
     await router.push('/')
+  } else {
+    store.user = null
   }
 })
 

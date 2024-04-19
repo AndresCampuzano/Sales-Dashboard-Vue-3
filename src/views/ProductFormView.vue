@@ -109,8 +109,7 @@ const router = useRoute()
 const productId = router.params.id as string
 
 const state = reactive({
-  // loading: true, TODO: CHANGE  <-----------------------
-  loading: false,
+  loading: true,
   editing: false,
   lockUI: false,
   menu: [
@@ -137,7 +136,6 @@ const state = reactive({
     price: 0,
     image: '', // base64 or URL
     selectedColors: [] as Array<string>
-    // unselectedColors: [] as Array<string>
   },
   modal: false
 })
@@ -158,7 +156,7 @@ onBeforeMount(async () => {
   }
 })
 
-// Sets the price to 0 if the input is empty
+// Sets the price to 0 if the input is empty or invalid
 watch(
   () => state.form.price,
   (value: any) => {

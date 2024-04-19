@@ -39,6 +39,15 @@
             }}
             ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
           </p>
+          <p v-if="data.updated_at" class="text-base font-thin opacity-80">
+            Editado el
+            {{
+              DateTime.fromISO(data.updated_at as string)
+                .setLocale('es')
+                .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+            }}
+            ({{ DateTime.fromISO(data.updated_at as string, {}).toRelative({ locale: 'es' }) }})
+          </p>
           <template v-if="data?.comments">
             <hr class="border-slate-700 my-4" />
             <p class="text-base mb-1">{{ data.comments }}</p>
