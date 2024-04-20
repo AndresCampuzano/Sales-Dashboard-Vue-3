@@ -56,7 +56,7 @@
             <product-item
               v-for="item in sortByCreatedAt(searchedProducts)"
               :key="item._id"
-              @click="onSelectProduct(item._id)"
+              @click="onAddProductToStack(item._id)"
               :data="item"
               preview-mode
               class="cursor-pointer hover:opacity-80"
@@ -66,58 +66,66 @@
             <p class="text-base">No se encuentra el broche, intenta con otro nombre</p>
           </template>
         </ul>
-        <div v-if="state.selectedProduct === null" class="bg-gray-700 p-2 rounded-md mt-4">
+        <div v-if="!state.productsStack.length" class="bg-gray-700 p-2 rounded-md mt-4">
           <p class="text-base">Selecciona un broche</p>
         </div>
         <template v-else>
-          <div class="bg-green-800 p-2 rounded-md mt-4">
-            <product-item :data="state.selectedProduct" />
-            <div class="mb-6">
-              <p class="block mb-2 font-medium">Colores disponibles del broche</p>
-              <div
-                class="w-full flex flex-wrap border rounded-lg p-2.5 bg-gray-800 border-gray-600"
-              >
-                <colored-badge
-                  v-for="item in unselectedBadges"
-                  :key="item.label"
-                  @click="addColor(item.label)"
-                  :label="item.label"
-                  :color="item.label"
-                  class="m-1 cursor-pointer"
+          <template v-for="product in state.productsStack" :key="product.index">
+            <div class="bg-green-800 p-2 rounded-md mt-4">
+              <product-item :data="product" preview-mode />
+              <div class="mb-6">
+                <p class="block mb-2 font-medium">Colores disponibles del broche</p>
+                <div
+                  class="w-full flex flex-wrap border rounded-lg p-2.5 bg-gray-800 border-gray-600"
+                >
+                  <colored-badge
+                    v-for="color in product.available_colors"
+                    :key="color"
+                    @click="addColor(product.index, color)"
+                    :label="color"
+                    :color="color"
+                    class="m-1 cursor-pointer"
+                  />
+                </div>
+                <p class="block font-medium mt-4 mb-2">Color seleccionado</p>
+                <div class="bg-gray-800 p-2 rounded-md">
+                  <colored-badge
+                    v-if="product.selectedColor"
+                    @click="deleteColor(product.index)"
+                    :label="product.selectedColor"
+                    :color="product.selectedColor"
+                    class="cursor-pointer"
+                  />
+                  <p v-else class="text-base">
+                    Selecciona un color <span class="text-red-600">*</span>
+                  </p>
+                </div>
+                <form-input
+                  v-model="product.selectedPrice"
+                  :id="`price-${product.index}`"
+                  type="number"
+                  :label="`Precio del ${product.name}`"
+                  :disabled="state.lockUI"
+                  class="mt-4"
+                  required
                 />
               </div>
-              <p class="block font-medium mt-4 mb-2">Color seleccionado</p>
-              <div class="bg-gray-800 p-2 rounded-md">
-                <colored-badge
-                  v-if="state.form.items.color"
-                  @click="deleteColor(state.form.items.color)"
-                  :label="state.form.items.color"
-                  :color="state.form.items.color"
-                  class="m-1 cursor-pointer"
-                />
-                <p v-else class="text-base">
-                  Selecciona un color <span class="text-red-600">*</span>
-                </p>
-              </div>
-              <form-input
-                v-model="state.form.items.price"
-                id="price"
-                type="number"
-                label="Precio del broche"
-                :disabled="state.lockUI"
-                required
-              />
             </div>
-          </div>
-          <p
-            v-if="state.selectedProduct"
-            @click="onClearSelectedProduct"
-            class="text-base underline mt-2 mb-3 cursor-pointer"
-          >
-            Limpiar
-          </p>
+            <p
+              @click="onClearProductFromStack(product.index)"
+              class="text-base underline mt-2 mb-3 cursor-pointer"
+            >
+              Limpiar
+            </p>
+          </template>
         </template>
         <hr class="border-slate-700 my-4" />
+        <FormButton
+          text="Guardar"
+          style-type="primary"
+          type="submit"
+          :disabled="!isFormFilledUp.success || state.lockUI"
+        />
       </form>
     </section>
   </main>
@@ -126,21 +134,25 @@
 <script lang="ts" setup>
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
 import { computed, onBeforeMount, reactive } from 'vue'
+import { toast } from 'vue3-toastify'
+import appRouter from '@/router'
 import LoadingFormSkeleton from '@/components/LoadingFormSkeleton.vue'
 import FormInput from '@/components/form-inputs/FormInput.vue'
-import type { Customer, Product } from '@/types/types.ts'
+import type { Customer, Product, Sale } from '@/types/types.ts'
 import { getCustomers } from '@/services/customer.service.ts'
 import { getItems } from '@/services/item.service.ts'
-import { toast } from 'vue3-toastify'
 import { normalizeString } from '@/utils/strings.ts'
 import { sortByCreatedAt } from '@/utils/dates.ts'
 import CustomerItem from '@/components/CustomerItem.vue'
 import ProductItem from '@/components/ProductItem.vue'
 import ColoredBadge from '@/components/ColoredBadge.vue'
-import { COLORS } from '@/constants/constants.ts'
+import FormButton from '@/components/form-inputs/FormButton.vue'
+import { postSale } from '@/services/sale.service.ts'
 
-interface SelectedProduct extends Product {
+interface ProductsStack extends Product {
   index: string
+  selectedColor: string
+  selectedPrice: number
 }
 
 const state = reactive({
@@ -166,23 +178,13 @@ const state = reactive({
       to: '/customers'
     }
   ] as Menu[],
-  form: {
-    client_id: '',
-    client_snapshot: '',
-    // items: [] as Sale['items']
-    items: {
-      item_id: '',
-      color: '',
-      price: 0
-    }
-  },
   queryCustomer: '',
   queryProduct: '',
   customers: [] as Customer[],
   products: [] as Product[],
   selectedCustomer: null as Customer | null,
   selectedProduct: null as Product | null,
-  selectedProducts: [] as SelectedProduct[],
+  productsStack: [] as ProductsStack[],
   modal: false
 })
 
@@ -222,17 +224,65 @@ const searchedProducts = computed(() => {
   return state.products
 })
 
-const unselectedBadges = computed(() => {
-  return COLORS.filter((item: any) => state.selectedProduct?.available_colors.includes(item.label))
-})
-
 async function fetchAndLoadData() {
   state.customers = await getCustomers()
   state.products = await getItems()
 }
 
+/**
+ * validates all inputs and actions are filled up/completed
+ * @returns {boolean} success
+ * @returns {object} data
+ */
+const isFormFilledUp = computed<{
+  success: boolean
+  data: Record<string, any>
+}>(() => {
+  const client_id = state.selectedCustomer?._id as string
+  const client_snapshot = state.selectedCustomer as Customer
+  const items = state.productsStack.map((x) => ({
+    item_id: x._id,
+    color: x.selectedColor,
+    price: Number(x.selectedPrice)
+  }))
+  return {
+    success:
+      client_id?.length > 0 &&
+      client_snapshot &&
+      items.length > 0 &&
+      items.every((x) => x.item_id !== undefined && x.item_id?.length > 0) &&
+      items.every((x) => x.color?.length > 0) &&
+      items.every((x) => x.price > 0),
+    data: {
+      client_id,
+      client_snapshot,
+      items
+    }
+  }
+})
+
 async function onSubmit() {
-  console.log(state.form)
+  const { success, data } = isFormFilledUp.value
+  if (!success) {
+    toast.warning('Revisa los datos e intentalo nuevamente. ')
+    return
+  }
+  try {
+    await postSale(data as Sale)
+    toast.success('Datos guardados!')
+    state.lockUI = true
+    goBack()
+  } catch (e) {
+    toast.error('Revisa los datos e intentalo nuevamente. ' + e)
+    state.lockUI = false
+  }
+}
+
+// Go back one step in history
+function goBack() {
+  setTimeout(() => {
+    appRouter.push('/')
+  }, 3000)
 }
 
 function onSelectCustomer(id: string) {
@@ -240,31 +290,37 @@ function onSelectCustomer(id: string) {
   state.selectedCustomer = state.customers.find((x) => x._id === id) || null
 }
 
-function onSelectProduct(id: string) {
-  if (state.selectedProduct?._id === id) return
-  const product = state.products.find((x) => x._id === id) || null
-  state.selectedProduct = product
-  state.form.items.price = product?.price || 0
+function onAddProductToStack(id: string) {
+  const product = state.products.find((x) => x._id === id) as Product
+  const index = Math.random().toString(16)
+  state.productsStack = [
+    ...state.productsStack,
+    {
+      index,
+      selectedColor: '',
+      selectedPrice: product.price,
+      ...product
+    }
+  ]
 }
 
 function onClearSelectedCustomer() {
   state.selectedCustomer = null
 }
 
-function onClearSelectedProduct() {
-  state.selectedProduct = null
-  state.form.items = {
-    item_id: '',
-    color: '',
-    price: 0
-  }
+function onClearProductFromStack(index: string) {
+  state.productsStack = state.productsStack.filter((x) => x.index !== index)
 }
 
-function addColor(label: string) {
-  state.form.items.color = label
+function addColor(index: string, color: string) {
+  const product = state.productsStack.find((x) => x.index === index)
+  if (!product) return
+  product.selectedColor = color
 }
 
-function deleteColor(label: string) {
-  state.form.items.color = ''
+function deleteColor(index: string) {
+  const product = state.productsStack.find((x) => x.index === index)
+  if (!product) return
+  product.selectedColor = ''
 }
 </script>

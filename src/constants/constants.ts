@@ -10,11 +10,12 @@ export const COLORS = [
   },
   {
     label: 'Azul',
-    color: '#2121b0'
+    color: '#0cadde',
+    textColor: '#070707'
   },
   {
     label: 'Verde',
-    color: '#24a124'
+    color: '#1b8c1b'
   },
   {
     label: 'Amarillo',
@@ -51,7 +52,7 @@ export const COLORS = [
   {
     label: 'Otro',
     color: '#a6a6a6',
-    textColor: '#ffffff'
+    textColor: '#232323'
   }
 ]
 

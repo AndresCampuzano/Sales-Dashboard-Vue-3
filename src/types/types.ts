@@ -24,6 +24,7 @@ export interface Product {
 export interface Sale {
   _id?: string
   client_id: string
+  client_snapshot?: Customer
   items: {
     item_id: string
     color: string

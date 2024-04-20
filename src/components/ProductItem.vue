@@ -7,7 +7,7 @@
       <div>
         <p class="text-base">{{ data.name }}</p>
         <p class="text-base">{{ currencyFormat(data.price) }}</p>
-        <div class="flex">
+        <div v-if="!previewMode" class="flex">
           <div
             v-for="item in data.available_colors"
             :key="item"
@@ -41,6 +41,13 @@ defineProps({
   data: {
     required: true,
     type: {} as PropType<Product>
+  },
+  /**
+   * If enabled, colors circles will be hidden
+   */
+  previewMode: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
