@@ -239,7 +239,6 @@ const isFormFilledUp = computed<{
   data: Record<string, any>
 }>(() => {
   const client_id = state.selectedCustomer?._id as string
-  const client_snapshot = state.selectedCustomer as Customer
   const items = state.productsStack.map((x) => ({
     item_id: x._id,
     color: x.selectedColor,
@@ -248,14 +247,12 @@ const isFormFilledUp = computed<{
   return {
     success:
       client_id?.length > 0 &&
-      client_snapshot &&
       items.length > 0 &&
       items.every((x) => x.item_id !== undefined && x.item_id?.length > 0) &&
       items.every((x) => x.color?.length > 0) &&
       items.every((x) => x.price > 0),
     data: {
       client_id,
-      client_snapshot,
       items
     }
   }

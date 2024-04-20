@@ -6,14 +6,14 @@
       <template v-if="state.loading">
         <loading-sales-item-skeleton :show-circle="true" />
       </template>
-      <summary-item v-for="item in state.data" :key="item.id" :data="item" />
+      <summary-item v-for="item in state.data" :key="item._id" :data="item" />
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import type { SalesDataTable } from '@/types/types.ts'
+import type { SummarySale } from '@/types/types.ts'
 import { getSales } from '@/services/sale.service.ts'
 import { prepareDataSales } from '@/utils/prepareDataSales.ts'
 import SummaryItem from '@/components/SummaryItem.vue'
@@ -22,7 +22,7 @@ import LoadingSalesItemSkeleton from '@/components/LoadingSalesItemSkeleton.vue'
 
 const state = reactive({
   loading: true,
-  data: [] as SalesDataTable[],
+  data: [] as SummarySale[],
   menu: [
     {
       label: 'nueva venta',

@@ -33,27 +33,37 @@
             <a :href="'tel:' + data.phone" class="text-blue-500 hover:text-blue-600">{{
               data.phone
             }}</a>
-            <p class="text-base font-thin opacity-80">
-              Creado el
-              {{
-                DateTime.fromISO(data.created_at as string)
-                  .setLocale('es')
-                  .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-              }}
-              ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
-            </p>
-            <p v-if="data.updated_at" class="text-base font-thin opacity-80">
-              Editado el
-              {{
-                DateTime.fromISO(data.updated_at as string)
-                  .setLocale('es')
-                  .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-              }}
-              ({{ DateTime.fromISO(data.updated_at as string, {}).toRelative({ locale: 'es' }) }})
-            </p>
+            <template v-if="!snapshotMode">
+              <p class="text-base font-thin opacity-80">
+                Creado el
+                {{
+                  DateTime.fromISO(data.created_at as string)
+                    .setLocale('es')
+                    .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+                }}
+                ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
+              </p>
+              <p v-if="data.updated_at" class="text-base font-thin opacity-80">
+                Editado el
+                {{
+                  DateTime.fromISO(data.updated_at as string)
+                    .setLocale('es')
+                    .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+                }}
+                ({{ DateTime.fromISO(data.updated_at as string, {}).toRelative({ locale: 'es' }) }})
+              </p>
+            </template>
             <template v-if="data?.comments">
               <hr class="border-slate-700 my-4" />
               <p class="text-base mb-1">{{ data.comments }}</p>
+            </template>
+            <template v-if="snapshotMode">
+              <hr class="border-slate-700 my-4" />
+              <p class="text-base font-thin opacity-80">
+                Información del cliente guardada al momento de generar la venta, ésta puede no
+                coincidir con la información actual del cliente en caso de que el cliente se
+                modifique después de generada la venta.
+              </p>
             </template>
           </template>
         </div>
@@ -84,7 +94,20 @@ const props = defineProps({
     required: true,
     type: {} as PropType<Customer>
   },
+  /**
+   * Only shows name and location
+   */
   previewMode: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Hides created_at and updated_at timestamps
+   * This is because when a customer is saved as snapshot,
+   * the information saved is a 'print' of what it used to be when saved in the DB,
+   * so the created_at and updated_at could not match with real customer's information.
+   */
+  snapshotMode: {
     type: Boolean,
     default: false
   }

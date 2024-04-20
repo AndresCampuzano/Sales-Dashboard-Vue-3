@@ -38,6 +38,7 @@ export interface SaleWithCustomerAndItemData {
   _id: string
   client_id: string
   client: Customer
+  client_snapshot?: Customer
   items: {
     item_id: string
     color: string
@@ -49,37 +50,26 @@ export interface SaleWithCustomerAndItemData {
   updated_at?: string
 }
 
-export interface SalesDataTable {
-  id: string
-  avatarItems: {
-    id: number
-    image_src: string
-    name: string
-  }[]
-  clientName: string
-  totalProducts: number
+export interface SummarySale {
+  _id: string
   totalPrice: number
-  city: string
-  department: string
   date: string
   isRecurrence?: boolean
   totalSales: Sale[]
-  nestedTableData: {
-    nestedItems: {
-      id: number
-      item_id: string
-      name: string
-      image_src: string
-      color: string
-      price: number
-    }[]
-    nestedClient: Customer
-  }
+  items: {
+    id: number
+    item_id: string
+    name: string
+    image_src: string
+    color: string
+    price: number
+  }[]
+  customerSnapshot: Customer
 }
 
 export interface MonthlySalesAndExpensesInterface {
   month: string
-  allItems?: SalesDataTable[]
+  allItems?: SummarySale[]
   revenue?: number
   revenueWithoutExpenses: number
   allExpenses: ExpenseInterface[]
@@ -90,8 +80,6 @@ export interface MonthlySalesAndExpensesInterface {
   areAllCurrenciesCOP: boolean
   expenses: number
 }
-
-export type ItemList = Product & { color: string }
 
 export interface ExpenseInterface {
   _id?: string

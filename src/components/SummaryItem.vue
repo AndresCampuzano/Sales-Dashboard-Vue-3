@@ -9,7 +9,7 @@
     <div class="flex items-center">
       <template v-if="products === 1">
         <img
-          :src="data.nestedTableData.nestedItems[0].image_src"
+          :src="data.items[0].image_src"
           alt="product 1"
           class="t-1-product-1 shared-styles-product-img"
         />
@@ -17,12 +17,12 @@
       <template v-if="products === 2">
         <div class="products-container">
           <img
-            :src="data.nestedTableData.nestedItems[0].image_src"
+            :src="data.items[0].image_src"
             alt="product 1"
             class="t-2-product-1 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[1].image_src"
+            :src="data.items[1].image_src"
             alt="product 2"
             class="t-2-product-2 shared-styles-product-img"
           />
@@ -31,17 +31,17 @@
       <template v-if="products === 3">
         <div class="products-container">
           <img
-            :src="data.nestedTableData.nestedItems[0].image_src"
+            :src="data.items[0].image_src"
             alt="product 1"
             class="t-3-product-1 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[1].image_src"
+            :src="data.items[1].image_src"
             alt="product 2"
             class="t-3-product-2 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[2].image_src"
+            :src="data.items[2].image_src"
             alt="product 3"
             class="t-3-product-3 shared-styles-product-img"
           />
@@ -50,22 +50,22 @@
       <template v-if="products === 4">
         <div class="products-container">
           <img
-            :src="data.nestedTableData.nestedItems[0].image_src"
+            :src="data.items[0].image_src"
             alt="product 1"
             class="t-4-product-1 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[1].image_src"
+            :src="data.items[1].image_src"
             alt="product 2"
             class="t-4-product-2 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[2].image_src"
+            :src="data.items[2].image_src"
             alt="product 3"
             class="t-4-product-3 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[3].image_src"
+            :src="data.items[3].image_src"
             alt="product 4"
             class="t-4-product-4 shared-styles-product-img"
           />
@@ -74,22 +74,22 @@
       <template v-if="products >= 5">
         <div class="products-container">
           <img
-            :src="data.nestedTableData.nestedItems[0].image_src"
+            :src="data.items[0].image_src"
             alt="product 1"
             class="t-5-product-1 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[1].image_src"
+            :src="data.items[1].image_src"
             alt="product 2"
             class="t-5-product-2 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[2].image_src"
+            :src="data.items[2].image_src"
             alt="product 3"
             class="t-5-product-3 shared-styles-product-img"
           />
           <img
-            :src="data.nestedTableData.nestedItems[3].image_src"
+            :src="data.items[3].image_src"
             alt="product 4"
             class="t-5-product-4 shared-styles-product-img"
           />
@@ -99,8 +99,8 @@
         </div>
       </template>
       <div class="ml-3">
-        <p class="text-base font-medium">{{ data.clientName }}</p>
-        <p class="text-base">{{ data.city }} / {{ data.department }}</p>
+        <p class="text-base font-medium">{{ customerSnapshot.name }}</p>
+        <p class="text-base">{{ customerSnapshot.city }} / {{ customerSnapshot.department }}</p>
         <p class="text-base font-thin">
           {{
             DateTime.fromISO(data.date)
@@ -118,7 +118,7 @@
           <div>
             <ul class="mb-4">
               <li
-                v-for="item in data.nestedTableData.nestedItems"
+                v-for="item in data.items"
                 :key="item.id"
                 class="p-2 bg-gray-700 rounded-md my-3 list-none"
               >
@@ -144,7 +144,7 @@
             </div>
           </div>
           <hr class="border-slate-700 mt-4" />
-          <customer-item :data="data.nestedTableData.nestedClient" />
+          <customer-item :data="customerSnapshot" snapshot-mode />
           <colored-badge
             class="ml-14 mb-3"
             :label="`${data.totalSales.length} ${data.isRecurrence ? 'compras realizadas' : 'compra realizada'} por el cliente`"
@@ -158,7 +158,7 @@
 
 <script lang="ts" setup>
 import { computed, type PropType, ref } from 'vue'
-import type { SalesDataTable } from '@/types/types.ts'
+import type { SummarySale } from '@/types/types.ts'
 import { DateTime } from 'luxon'
 import { currencyFormat } from '../utils/currencyFormat.ts'
 import ColoredBadge from '@/components/ColoredBadge.vue'
@@ -169,12 +169,16 @@ const isOpen = ref(false)
 const props = defineProps({
   data: {
     required: true,
-    type: {} as PropType<SalesDataTable>
+    type: {} as PropType<SummarySale>
   }
 })
 
 const products = computed<number>(() => {
-  return props.data?.nestedTableData.nestedItems.length
+  return props.data?.items.length
+})
+
+const customerSnapshot = computed(() => {
+  return props.data?.customerSnapshot
 })
 </script>
 

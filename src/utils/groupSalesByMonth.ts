@@ -1,8 +1,4 @@
-import type {
-  ExpenseInterface,
-  MonthlySalesAndExpensesInterface,
-  SalesDataTable
-} from '@/types/types'
+import type { ExpenseInterface, MonthlySalesAndExpensesInterface, SummarySale } from '@/types/types'
 import { sortArrayByMonthAndYear } from './dates.ts'
 
 interface groupSalesByMonthInterface {
@@ -16,7 +12,7 @@ export function groupSalesByMonth({
   sales,
   expenses
 }: {
-  sales: SalesDataTable[]
+  sales: SummarySale[]
   expenses: ExpenseInterface[]
 }): groupSalesByMonthInterface {
   // Create an empty array to store monthly sales and expenses data.

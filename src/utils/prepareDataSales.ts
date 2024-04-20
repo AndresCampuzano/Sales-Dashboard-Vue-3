@@ -1,6 +1,6 @@
-import type { SalesDataTable, SaleWithCustomerAndItemData } from '../types/types.ts'
+import type { SummarySale, SaleWithCustomerAndItemData } from '../types/types.ts'
 
-export const prepareDataSales = (data: SaleWithCustomerAndItemData[]): SalesDataTable[] => {
+export const prepareDataSales = (data: SaleWithCustomerAndItemData[]): SummarySale[] => {
   // Sorting by date
   const sortedArray = data.sort(
     (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -8,30 +8,19 @@ export const prepareDataSales = (data: SaleWithCustomerAndItemData[]): SalesData
 
   // Mapping data
   return sortedArray.map((sale) => ({
-    id: sale._id,
-    avatarItems: sale.items.map((item, index) => ({
-      id: index,
-      image_src: sale.original_items.find((x) => x._id === item.item_id)?.image || '',
-      name: sale.original_items.find((x) => x._id === item.item_id)?.name || ''
-    })),
-    clientName: sale.client.name,
-    totalProducts: sale.items.length,
+    _id: sale._id,
     totalPrice: sale.items.reduce((acc, item) => acc + (item?.price || 0), 0),
-    city: sale.client.city,
-    department: sale.client.department,
     date: sale.created_at as string,
     isRecurrence: sale.total_sales.length > 1,
     totalSales: sale.total_sales,
-    nestedTableData: {
-      nestedItems: sale.items.map((item, index) => ({
-        id: index,
-        item_id: item.item_id,
-        name: sale.original_items.find((x) => x._id === item.item_id)?.name || '',
-        image_src: sale.original_items.find((x) => x._id === item.item_id)?.image || '',
-        color: item.color,
-        price: item.price || 0
-      })),
-      nestedClient: sale.client
-    }
+    items: sale.items.map((item, index) => ({
+      id: index, // since item_id can be the same item multiple times without an id from DB, that's why we use index as id
+      item_id: item.item_id,
+      name: sale.original_items.find((x) => x._id === item.item_id)?.name || '',
+      image_src: sale.original_items.find((x) => x._id === item.item_id)?.image || '',
+      color: item.color,
+      price: item.price || 0
+    })),
+    customerSnapshot: sale?.client_snapshot || sale.client
   }))
 }
