@@ -18,39 +18,43 @@
       <div class="w-full ml-3">
         <div>
           <p class="text-base mb-2">{{ data.name }}</p>
-          <p class="text-base mb-1">{{ data.address }}</p>
+          <template v-if="!previewMode">
+            <p class="text-base mb-1">{{ data.address }}</p>
+          </template>
           <p class="text-base mb-1">{{ data.city }} / {{ data.department }}</p>
-          <a
-            :href="`https://www.instagram.com/${data.instagram_account}`"
-            target="_blank"
-            class="font-medium text-blue-500 hover:text-blue-600"
-            >@{{ data.instagram_account }}</a
-          >
-          <div class="mb-1"></div>
-          <a :href="'tel:' + data.phone" class="text-blue-500 hover:text-blue-600">{{
-            data.phone
-          }}</a>
-          <p class="text-base font-thin opacity-80">
-            Creado el
-            {{
-              DateTime.fromISO(data.created_at as string)
-                .setLocale('es')
-                .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-            }}
-            ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
-          </p>
-          <p v-if="data.updated_at" class="text-base font-thin opacity-80">
-            Editado el
-            {{
-              DateTime.fromISO(data.updated_at as string)
-                .setLocale('es')
-                .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-            }}
-            ({{ DateTime.fromISO(data.updated_at as string, {}).toRelative({ locale: 'es' }) }})
-          </p>
-          <template v-if="data?.comments">
-            <hr class="border-slate-700 my-4" />
-            <p class="text-base mb-1">{{ data.comments }}</p>
+          <template v-if="!previewMode">
+            <a
+              :href="`https://www.instagram.com/${data.instagram_account}`"
+              target="_blank"
+              class="font-medium text-blue-500 hover:text-blue-600"
+              >@{{ data.instagram_account }}</a
+            >
+            <div class="mb-1"></div>
+            <a :href="'tel:' + data.phone" class="text-blue-500 hover:text-blue-600">{{
+              data.phone
+            }}</a>
+            <p class="text-base font-thin opacity-80">
+              Creado el
+              {{
+                DateTime.fromISO(data.created_at as string)
+                  .setLocale('es')
+                  .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+              }}
+              ({{ DateTime.fromISO(data.created_at as string, {}).toRelative({ locale: 'es' }) }})
+            </p>
+            <p v-if="data.updated_at" class="text-base font-thin opacity-80">
+              Editado el
+              {{
+                DateTime.fromISO(data.updated_at as string)
+                  .setLocale('es')
+                  .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+              }}
+              ({{ DateTime.fromISO(data.updated_at as string, {}).toRelative({ locale: 'es' }) }})
+            </p>
+            <template v-if="data?.comments">
+              <hr class="border-slate-700 my-4" />
+              <p class="text-base mb-1">{{ data.comments }}</p>
+            </template>
           </template>
         </div>
       </div>
@@ -79,6 +83,10 @@ const props = defineProps({
   data: {
     required: true,
     type: {} as PropType<Customer>
+  },
+  previewMode: {
+    type: Boolean,
+    default: false
   }
 })
 

@@ -11,7 +11,7 @@ export interface Customer {
   updated_at?: string
 }
 
-export interface Item {
+export interface Product {
   _id?: string
   name: string
   price: number
@@ -27,6 +27,7 @@ export interface Sale {
   items: {
     item_id: string
     color: string
+    price: number
   }[]
   created_at?: string
   updated_at?: string
@@ -41,7 +42,7 @@ export interface SaleWithCustomerAndItemData {
     color: string
     price: number
   }[]
-  original_items: Item[]
+  original_items: Product[]
   total_sales: Sale[]
   created_at: string
   updated_at?: string
@@ -89,7 +90,7 @@ export interface MonthlySalesAndExpensesInterface {
   expenses: number
 }
 
-export type ItemList = Item & { color: string }
+export type ItemList = Product & { color: string }
 
 export interface ExpenseInterface {
   _id?: string

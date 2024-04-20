@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { Item } from '@/types/types.ts'
+import type { Product } from '@/types/types.ts'
 import { colorFromLocalConstants } from '@/utils/colors.ts'
 import EditIcon from '@/components/icons/EditIcon.vue'
 import { currencyFormat } from '@/utils/currencyFormat.ts'
@@ -40,7 +40,7 @@ import { currencyFormat } from '@/utils/currencyFormat.ts'
 defineProps({
   data: {
     required: true,
-    type: {} as PropType<Item>
+    type: {} as PropType<Product>
   }
 })
 </script>

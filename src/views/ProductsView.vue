@@ -5,8 +5,17 @@
       <h1 class="text-2xl">Broches</h1>
       <loading-sales-item-skeleton v-if="state.loading" />
       <template v-else>
-        <form-input v-model="state.query" id="query" placeholder="Buscar broche" class="mt-3" />
-        <p v-if="state.query.trim()" @click="clearQuery" class="text-base underline mt-2 mb-3">
+        <form-input
+          v-model="state.query"
+          id="query"
+          placeholder="Buscar broche por nombre"
+          class="mt-3"
+        />
+        <p
+          v-if="state.query.trim()"
+          @click="clearQuery"
+          class="text-base underline mt-2 mb-3 cursor-pointer"
+        >
           Limpiar
         </p>
         <ul>
@@ -22,7 +31,7 @@ import { computed, onBeforeMount, reactive } from 'vue'
 import FloatingButtons, { type Menu } from '@/components/FloatingButtons.vue'
 import { toast } from 'vue3-toastify'
 import { getItems } from '@/services/item.service.ts'
-import type { Item } from '@/types/types.ts'
+import type { Product } from '@/types/types.ts'
 import LoadingSalesItemSkeleton from '@/components/LoadingSalesItemSkeleton.vue'
 import ProductItem from '@/components/ProductItem.vue'
 import FormInput from '@/components/form-inputs/FormInput.vue'
@@ -49,7 +58,7 @@ const state = reactive({
       to: '/customers'
     }
   ] as Menu[],
-  products: [] as Item[],
+  products: [] as Product[],
   query: ''
 })
 
@@ -67,7 +76,7 @@ async function fetchData() {
   state.products = (await getItems()).reverse()
 }
 
-const filteredProducts = computed<Item[]>(() => {
+const filteredProducts = computed<Product[]>(() => {
   if (state.query) {
     return state.products.filter((product) => {
       return normalizeString(product.name.toLowerCase()).includes(

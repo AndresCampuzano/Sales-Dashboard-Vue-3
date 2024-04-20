@@ -8,7 +8,9 @@
     :required="required"
     :disabled="disabled"
   />
-  <p v-if="query.trim()" @click="clearQuery" class="text-base underline mt-2 mb-3">Limpiar</p>
+  <p v-if="query.trim()" @click="clearQuery" class="text-base underline mt-2 mb-3 cursor-pointer">
+    Limpiar
+  </p>
   <ul>
     <li v-for="item in searchOptions" :key="item.value" @click="onSetValue(item.value)">
       {{ item.label }}

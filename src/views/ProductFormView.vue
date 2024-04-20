@@ -2,15 +2,15 @@
   <floating-buttons :menu="state.menu" />
   <main>
     <section class="max-w-lg m-auto px-3">
-      <h1 v-if="state.editing" class="text-2xl">Editar Producto</h1>
-      <h1 v-else class="text-2xl">Nuevo Producto</h1>
+      <h1 v-if="state.editing" class="text-2xl">Editar Broche</h1>
+      <h1 v-else class="text-2xl">Nuevo Broche</h1>
       <loading-form-skeleton v-if="state.loading" />
       <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onSubmit">
         <form-input
           v-model="state.form.name"
           id="name"
           type="text"
-          label="Nombre del producto"
+          label="Nombre del broche"
           placeholder="ej. Canguro"
           :disabled="state.lockUI"
           required
@@ -19,32 +19,16 @@
           v-model="state.form.price"
           id="price"
           type="number"
-          label="Precio del producto"
-          placeholder="ej. Hilos"
+          label="Precio del broche"
           :disabled="state.lockUI"
           required
         />
         <form-image
           v-model="state.form.image"
-          label="Imagen del producto"
+          label="Imagen del broche"
           id="image_upload"
           required
         />
-        <div class="mb-6">
-          <p class="block mb-2 font-medium">
-            Colores seleccionados del producto <span class="text-red-600">*</span>
-          </p>
-          <div class="w-full flex flex-wrap border rounded-lg p-2.5 bg-gray-700 border-gray-600">
-            <colored-badge
-              v-for="item in unselectedBadges"
-              :key="item.label"
-              @click="deleteFromSelectedArr(item.label)"
-              :label="item.label"
-              :color="item.label"
-              class="m-1 cursor-pointer"
-            />
-          </div>
-        </div>
         <div class="mb-6">
           <p class="block mb-2 font-medium">
             Colores disponibles <span class="text-red-600">*</span>
@@ -56,7 +40,22 @@
               @click="addToSelectedArr(item.label)"
               :label="item.label"
               :color="item.label"
-              class="m-1 cursor-pointer"
+              class="cursor-pointer"
+            />
+          </div>
+        </div>
+        <div class="mb-6">
+          <p class="block mb-2 font-medium">
+            Colores seleccionados del broche <span class="text-red-600">*</span>
+          </p>
+          <div class="w-full flex flex-wrap border rounded-lg p-2.5 bg-gray-700 border-gray-600">
+            <colored-badge
+              v-for="item in unselectedBadges"
+              :key="item.label"
+              @click="deleteFromSelectedArr(item.label)"
+              :label="item.label"
+              :color="item.label"
+              class="cursor-pointer"
             />
           </div>
         </div>
@@ -101,7 +100,7 @@ import FormButton from '@/components/form-inputs/FormButton.vue'
 import FormImage from '@/components/form-inputs/FormImage.vue'
 import { COLORS } from '@/constants/constants.ts'
 import ColoredBadge from '@/components/ColoredBadge.vue'
-import type { Item } from '@/types/types.ts'
+import type { Product } from '@/types/types.ts'
 import { deleteItem, getItem, postItem, updateItem } from '@/services/item.service.ts'
 import CustomModal from '@/components/CustomModal.vue'
 
@@ -195,7 +194,7 @@ async function onSubmit() {
 
   if (!isFormFilledUp.value) return
 
-  const data: Item = {
+  const data: Product = {
     name,
     price,
     image,

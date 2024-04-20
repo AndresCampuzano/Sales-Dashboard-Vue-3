@@ -9,6 +9,7 @@ import CustomersView from '@/views/CustomersView.vue'
 import CustomerFormView from '@/views/CustomerFormView.vue'
 import ExpensesView from '@/views/ExpensesView.vue'
 import ExpenseFormView from '@/views/ExpenseFormView.vue'
+import SaleForm from '@/views/SaleForm.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,19 @@ export const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/sales',
+      meta: {
+        requiresAuth: true
+      },
+      children: [
+        {
+          path: 'new',
+          name: 'new-sale',
+          component: SaleForm
+        }
+      ]
     },
     {
       path: '/products',

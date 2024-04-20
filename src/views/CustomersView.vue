@@ -11,7 +11,11 @@
           placeholder="Buscar cliente por nombre, ciudad, dept, instagram"
           class="mt-3"
         />
-        <p v-if="state.query.trim()" @click="clearQuery" class="text-base underline mt-2 mb-3">
+        <p
+          v-if="state.query.trim()"
+          @click="clearQuery"
+          class="text-base underline mt-2 mb-3 cursor-pointer"
+        >
           Limpiar
         </p>
         <ul>

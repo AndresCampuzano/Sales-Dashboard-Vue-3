@@ -26,7 +26,7 @@ const state = reactive({
   menu: [
     {
       label: 'nueva venta',
-      to: '/',
+      to: '/sales/new',
       active: true
     },
     {
