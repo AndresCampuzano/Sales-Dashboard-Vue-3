@@ -40,7 +40,7 @@
               @click="addToSelectedArr(item.label)"
               :label="item.label"
               :color="item.label"
-              class="cursor-pointer"
+              class="m-1 cursor-pointer"
             />
           </div>
         </div>
@@ -55,7 +55,7 @@
               @click="deleteFromSelectedArr(item.label)"
               :label="item.label"
               :color="item.label"
-              class="cursor-pointer"
+              class="m-1 cursor-pointer"
             />
           </div>
         </div>

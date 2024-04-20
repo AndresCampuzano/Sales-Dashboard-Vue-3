@@ -94,7 +94,7 @@
                     @click="deleteColor(product.index)"
                     :label="product.selectedColor"
                     :color="product.selectedColor"
-                    class="cursor-pointer"
+                    class="m-1 cursor-pointer"
                   />
                   <p v-else class="text-base">
                     Selecciona un color <span class="text-red-600">*</span>
