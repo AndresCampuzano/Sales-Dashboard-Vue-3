@@ -69,7 +69,7 @@
           :disabled="state.lockUI"
         />
         <span
-          v-if="!state.hasSnapshotsOnSales"
+          v-if="!state.hasSnapshotsOnSales && state.editing"
           class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-base text-red-700 ring-1 ring-inset ring-red-600/10 mb-6"
           >Precaución:
           <br />
