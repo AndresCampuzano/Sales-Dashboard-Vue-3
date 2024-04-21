@@ -68,6 +68,14 @@
           label="Comentarios extras (opcional)"
           :disabled="state.lockUI"
         />
+        <span
+          v-if="!state.hasSnapshotsOnSales"
+          class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-base text-red-700 ring-1 ring-inset ring-red-600/10 mb-6"
+          >Precaución:
+          <br />
+          En caso de que este cliente tenga ventas, editar este cliente puede también
+          accidentalmente editar la información del cliente en pasadas ventas.</span
+        >
         <FormButton
           :text="state.editing ? 'Editar' : 'Guardar'"
           style-type="primary"
@@ -152,6 +160,7 @@ const state = reactive({
     phone: 0,
     comments: ''
   },
+  hasSnapshotsOnSales: false,
   modal: false
 })
 
@@ -213,8 +222,16 @@ const cityOptions = computed(() => {
 })
 
 async function fetchAndLoadData() {
-  const { name, city, department, instagram_account, phone, address, comments } =
-    await getCustomer(productId)
+  const {
+    name,
+    city,
+    department,
+    instagram_account,
+    phone,
+    address,
+    comments,
+    has_snapshots_on_sales
+  } = await getCustomer(productId)
   state.form.name = name
   state.form.city = city
   state.form.department = department
@@ -222,6 +239,7 @@ async function fetchAndLoadData() {
   state.form.phone = phone
   state.form.comments = comments || ''
   state.form.instagram_account = instagram_account
+  state.hasSnapshotsOnSales = !!has_snapshots_on_sales
 }
 
 async function onSubmit() {

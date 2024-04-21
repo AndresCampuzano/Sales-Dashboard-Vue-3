@@ -7,6 +7,7 @@ export interface Customer {
   city: string
   phone: number
   comments?: string
+  has_snapshots_on_sales?: boolean
   created_at?: string
   updated_at?: string
 }
