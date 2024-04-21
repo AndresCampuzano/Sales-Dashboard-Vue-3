@@ -122,12 +122,13 @@ function onCloseMenu() {
       &-options-container {
         opacity: 0; /* Start with 0 opacity */
         position: absolute;
-        left: -52px;
-        width: 140px;
+        left: -130px;
+        width: 190px;
         animation: fadeIn 0.1s linear forwards;
+        text-transform: capitalize;
 
         @media (max-width: 600px) {
-          left: -74px;
+          left: -120px;
         }
 
         &-item {

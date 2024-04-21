@@ -30,7 +30,7 @@ const state = reactive({
       active: true
     },
     {
-      label: 'gastos',
+      label: 'gastos y rendimientos',
       to: '/expenses'
     },
     {

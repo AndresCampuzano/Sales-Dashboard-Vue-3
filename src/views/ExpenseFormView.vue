@@ -5,7 +5,11 @@
       <h1 v-if="state.editing" class="text-2xl">Editar Gasto</h1>
       <h1 v-else class="text-2xl">Nuevo Gasto</h1>
       <loading-form-skeleton v-if="state.loading" />
-      <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onSubmit">
+      <form
+        v-else
+        class="mx-6 mt-6 mb-24"
+        @submit.prevent="state.editing ? onOpenModal() : onSubmit()"
+      >
         <form-radio
           v-model="state.form.type"
           value="instagram_ad"
@@ -127,7 +131,7 @@ const state = reactive({
       to: '/'
     },
     {
-      label: 'gastos',
+      label: 'gastos y rendimientos',
       to: '/expenses',
       active: true
     },

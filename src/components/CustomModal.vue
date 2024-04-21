@@ -38,6 +38,9 @@
                   <p class="text-base">
                     {{ description }}
                   </p>
+                  <div class="content">
+                    <slot />
+                  </div>
                 </div>
               </div>
             </div>

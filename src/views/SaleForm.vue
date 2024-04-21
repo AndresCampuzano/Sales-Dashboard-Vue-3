@@ -5,7 +5,7 @@
       <h1 v-if="state.editing" class="text-2xl">Editar Venta</h1>
       <h1 v-else class="text-2xl">Nueva Venta</h1>
       <loading-form-skeleton v-if="state.loading" />
-      <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onSubmit">
+      <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onOpenModal">
         <form-input
           v-model="state.queryCustomer"
           id="query_customer"
@@ -29,7 +29,7 @@
           </template>
         </ul>
         <div v-if="state.selectedCustomer === null" class="bg-gray-700 p-2 rounded-md mt-4">
-          <p class="text-base">Selecciona un cliente</p>
+          <p class="text-base">Selecciona un cliente <span class="text-red-600">*</span></p>
         </div>
         <template v-else>
           <div class="bg-green-800 p-2 rounded-md mt-4">
@@ -67,7 +67,7 @@
           </template>
         </ul>
         <div v-if="!state.productsStack.length" class="bg-gray-700 p-2 rounded-md mt-4">
-          <p class="text-base">Selecciona un broche</p>
+          <p class="text-base">Selecciona un broche <span class="text-red-600">*</span></p>
         </div>
         <template v-else>
           <template v-for="product in state.productsStack" :key="product.index">
@@ -122,13 +122,61 @@
         <hr class="border-slate-700 my-4" />
         <FormButton
           text="Guardar"
+          @click="onOpenModal"
           style-type="primary"
-          type="submit"
+          type="button"
           :disabled="!isFormFilledUp.success || state.lockUI"
         />
       </form>
     </section>
   </main>
+  <custom-modal
+    v-if="state.modal"
+    title="Confirmar Venta"
+    description="Lo siguientes elementos serán guardados:"
+    primary-button="Guardar"
+    secondary-button="Cancelar"
+    is-danger
+    @close="onCloseModal"
+    @submit="onSubmit"
+  >
+    <ul>
+      <li
+        v-for="item in state.productsStack"
+        :key="item.index"
+        class="p-2 bg-gray-700 rounded-md my-3 list-none flex items-center text-left"
+      >
+        <img
+          :src="recoverProductForModal(item._id as string).image"
+          :alt="recoverProductForModal(item._id as string).name"
+          class="rounded-full h-10 w-14 object-cover"
+        />
+        <div class="ml-3 flex w-full">
+          <p class="text-base">
+            {{ recoverProductForModal(item._id as string).name }}
+            <colored-badge :label="item.selectedColor" :color="item.selectedColor" />
+          </p>
+          <p class="ml-auto mr-2">{{ currencyFormat(item.selectedPrice) }}</p>
+        </div>
+      </li>
+    </ul>
+    <div class="w-fit ml-auto mr-2.5 flex">
+      <span
+        class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+        >Ganancias</span
+      >
+      <div class="flex flex-col">
+        <p class="ml-3 text-green-400 text-base">
+          {{ currencyFormat(earnings) }}
+        </p>
+      </div>
+    </div>
+    <hr class="border-slate-700 my-8" />
+    <p class="text-base text-left">Para el cliente:</p>
+    <div>
+      <customer-item :data="state.selectedCustomer as Customer" hide-icon class="text-left" />
+    </div>
+  </custom-modal>
 </template>
 
 <script lang="ts" setup>
@@ -148,6 +196,8 @@ import ProductItem from '@/components/ProductItem.vue'
 import ColoredBadge from '@/components/ColoredBadge.vue'
 import FormButton from '@/components/form-inputs/FormButton.vue'
 import { postSale } from '@/services/sale.service.ts'
+import CustomModal from '@/components/CustomModal.vue'
+import { currencyFormat } from '@/utils/currencyFormat.ts'
 
 interface ProductsStack extends Product {
   index: string
@@ -166,7 +216,7 @@ const state = reactive({
       active: true
     },
     {
-      label: 'gastos',
+      label: 'gastos y rendimientos',
       to: '/expenses'
     },
     {
@@ -228,6 +278,13 @@ async function fetchAndLoadData() {
   state.customers = await getCustomers()
   state.products = await getItems()
 }
+
+const earnings = computed<number>(() => {
+  return isFormFilledUp.value.data.items.reduce(
+    (accumulator: any, currentValue: any) => accumulator + currentValue.price,
+    0
+  )
+})
 
 /**
  * validates all inputs and actions are filled up/completed
@@ -319,5 +376,28 @@ function deleteColor(index: string) {
   const product = state.productsStack.find((x) => x.index === index)
   if (!product) return
   product.selectedColor = ''
+}
+
+function onOpenModal() {
+  state.modal = true
+}
+
+function onCloseModal() {
+  state.modal = false
+}
+
+/**
+ * Recovers the product's image and name
+ * @param _id
+ */
+function recoverProductForModal(_id: string): {
+  image: string
+  name: string
+} {
+  const product = state.products.find((x) => x._id === _id) as Product
+  return {
+    image: product.image,
+    name: product.name
+  }
 }
 </script>

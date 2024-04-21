@@ -68,7 +68,7 @@
           </template>
         </div>
       </div>
-      <div>
+      <div v-if="!hideIcon">
         <RouterLink
           :to="`/customers/edit/${data._id}`"
           class="rounded-full hover:bg-gray-800 h-10 w-10 flex items-center justify-center"
@@ -108,6 +108,10 @@ const props = defineProps({
    * so the created_at and updated_at could not match with real customer's information.
    */
   snapshotMode: {
+    type: Boolean,
+    default: false
+  },
+  hideIcon: {
     type: Boolean,
     default: false
   }
