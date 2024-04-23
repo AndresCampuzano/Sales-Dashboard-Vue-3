@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="w-full ml-3">
-        <div>
-          <p class="text-base mb-2">{{ data.name }}</p>
+        <div class="flex flex-col">
+          <p class="text-base mb-1">{{ data.name }}</p>
           <template v-if="!previewMode">
             <p class="text-base mb-1">{{ data.address }}</p>
           </template>
@@ -26,13 +26,15 @@
             <a
               :href="`https://www.instagram.com/${data.instagram_account}`"
               target="_blank"
-              class="font-medium text-blue-500 hover:text-blue-600"
+              class="font-medium text-blue-500 hover:text-blue-600 mb-1"
               >@{{ data.instagram_account }}</a
             >
-            <div class="mb-1"></div>
             <a :href="'tel:' + data.phone" class="text-blue-500 hover:text-blue-600">{{
               data.phone
             }}</a>
+            <template v-if="data?.cc">
+              <p class="text-base mb-1">cc {{ data.cc }}</p>
+            </template>
             <template v-if="!snapshotMode">
               <p class="text-base font-thin opacity-80">
                 Creado el
@@ -55,7 +57,7 @@
             </template>
             <template v-if="data?.comments">
               <hr class="border-slate-700 my-4" />
-              <p class="text-base mb-1">{{ data.comments }}</p>
+              <p class="text-base mb-1">Comentarios: {{ data.comments }}</p>
             </template>
             <template v-if="snapshotMode">
               <hr class="border-slate-700 my-4" />

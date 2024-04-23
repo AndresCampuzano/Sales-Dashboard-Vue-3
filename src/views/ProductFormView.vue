@@ -5,11 +5,7 @@
       <h1 v-if="state.editing" class="text-2xl">Editar Broche</h1>
       <h1 v-else class="text-2xl">Nuevo Broche</h1>
       <loading-form-skeleton v-if="state.loading" />
-      <form
-        v-else
-        class="mx-6 mt-6 mb-24"
-        @submit.prevent="state.editing ? onOpenModal() : onSubmit()"
-      >
+      <form v-else class="mx-6 mt-6 mb-24" @keydown.enter="$event.preventDefault()" @submit.prevent>
         <form-input
           v-model="state.form.name"
           id="name"
@@ -63,19 +59,20 @@
             />
           </div>
         </div>
-        <FormButton
+        <form-button
+          @click="onSubmit"
           :text="state.editing ? 'Editar' : 'Guardar'"
-          style-type="primary"
-          type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
+          style-type="primary"
+          type="button"
         />
-        <FormButton
+        <form-button
           v-if="state.editing"
           @click="onOpenModal"
+          :disabled="state.lockUI"
+          style-type="danger"
           text="Eliminar"
           type="button"
-          style-type="danger"
-          :disabled="state.lockUI"
         />
       </form>
     </section>

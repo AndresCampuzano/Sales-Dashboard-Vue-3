@@ -46,12 +46,12 @@
             </div>
           </div>
           <div class="bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <FormButton
+            <form-button
               :text="primaryButton"
               @click="onSubmit"
               :style-type="isDanger ? 'danger' : 'primary'"
             />
-            <FormButton
+            <form-button
               v-if="secondaryButton"
               @click="onCloseModal"
               :text="secondaryButton"

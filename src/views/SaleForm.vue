@@ -5,7 +5,7 @@
       <h1 v-if="state.editing" class="text-2xl">Editar Venta</h1>
       <h1 v-else class="text-2xl">Nueva Venta</h1>
       <loading-form-skeleton v-if="state.loading" />
-      <form v-else class="mx-6 mt-6 mb-24" @submit.prevent="onOpenModal">
+      <form v-else class="mx-6 mt-6 mb-24" @keydown.enter="$event.preventDefault()" @submit.prevent>
         <form-input
           v-model="state.queryCustomer"
           id="query_customer"
@@ -120,12 +120,12 @@
           </template>
         </template>
         <hr class="border-slate-700 my-4" />
-        <FormButton
-          text="Guardar"
+        <form-button
           @click="onOpenModal"
+          text="Guardar"
+          :disabled="!isFormFilledUp.success || state.lockUI"
           style-type="primary"
           type="button"
-          :disabled="!isFormFilledUp.success || state.lockUI"
         />
       </form>
     </section>

@@ -17,7 +17,7 @@
         label="Contraseña"
         required
       />
-      <FormButton text="Iniciar sesión" type="submit" />
+      <form-button text="Iniciar sesión" type="submit" />
     </form>
   </main>
 </template>

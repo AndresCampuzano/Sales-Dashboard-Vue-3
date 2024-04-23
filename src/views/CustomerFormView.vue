@@ -5,11 +5,7 @@
       <h1 v-if="state.editing" class="text-2xl">Editar Cliente</h1>
       <h1 v-else class="text-2xl">Nuevo Cliente</h1>
       <loading-form-skeleton v-if="state.loading" />
-      <form
-        v-else
-        class="mx-6 mt-6 mb-24"
-        @submit.prevent="state.editing ? onOpenModal() : onSubmit()"
-      >
+      <form v-else class="mx-6 mt-6 mb-24" @keydown.enter="$event.preventDefault()" @submit.prevent>
         <form-input
           v-model="state.form.name"
           id="name"
@@ -44,6 +40,7 @@
           placeholder="Elige el departamento"
           id="department"
           required
+          :disabled="state.lockUI"
         />
         <form-select
           v-model="state.form.city"
@@ -52,6 +49,7 @@
           placeholder="Elige la ciudad"
           id="city"
           required
+          :disabled="state.lockUI"
         />
         <form-input
           v-model="state.form.phone"
@@ -60,6 +58,13 @@
           label="Teléfono del cliente"
           :disabled="state.lockUI"
           required
+        />
+        <form-input
+          v-model="state.form.cc"
+          id="cc"
+          type="text"
+          label="Identificación (opcional)"
+          :disabled="state.lockUI"
         />
         <form-input
           v-model="state.form.comments"
@@ -76,19 +81,20 @@
           En caso de que este cliente tenga ventas, editar este cliente puede también
           accidentalmente editar la información del cliente en pasadas ventas.</span
         >
-        <FormButton
+        <form-button
+          @click="onSubmit"
           :text="state.editing ? 'Editar' : 'Guardar'"
-          style-type="primary"
-          type="submit"
           :disabled="!isFormFilledUp || state.lockUI"
+          style-type="primary"
+          type="button"
         />
-        <FormButton
+        <form-button
           v-if="state.editing"
           @click="onOpenModal"
+          :disabled="state.lockUI"
+          style-type="danger"
           text="Eliminar"
           type="button"
-          style-type="danger"
-          :disabled="state.lockUI"
         />
       </form>
     </section>
@@ -158,6 +164,7 @@ const state = reactive({
     department: '',
     instagram_account: '',
     phone: 0,
+    cc: '',
     comments: ''
   },
   hasSnapshotsOnSales: false,
@@ -229,6 +236,7 @@ async function fetchAndLoadData() {
     instagram_account,
     phone,
     address,
+    cc,
     comments,
     has_snapshots_on_sales
   } = await getCustomer(productId)
@@ -237,13 +245,14 @@ async function fetchAndLoadData() {
   state.form.department = department
   state.form.address = address
   state.form.phone = phone
+  state.form.cc = cc || ''
   state.form.comments = comments || ''
   state.form.instagram_account = instagram_account
   state.hasSnapshotsOnSales = !!has_snapshots_on_sales
 }
 
 async function onSubmit() {
-  const { name, city, department, instagram_account, phone, address, comments } = state.form
+  const { name, city, department, instagram_account, phone, address, cc, comments } = state.form
 
   if (!isFormFilledUp.value) return
 
@@ -254,6 +263,7 @@ async function onSubmit() {
     instagram_account,
     phone,
     address,
+    cc,
     comments
   }
 
