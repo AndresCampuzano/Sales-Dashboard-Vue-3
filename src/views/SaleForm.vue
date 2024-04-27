@@ -136,7 +136,6 @@
     description="Lo siguientes elementos serán guardados:"
     primary-button="Guardar"
     secondary-button="Cancelar"
-    is-danger
     @close="onCloseModal"
     @submit="onSubmit"
   >
